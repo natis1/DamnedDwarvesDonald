@@ -1,26 +1,13 @@
 //package com.zetcode;
 
-import java.awt.AlphaComposite;
-import java.awt.Color;
-import java.awt.Font;
-import java.awt.Graphics;
-import java.awt.Graphics2D;
-//import java.awt.Image;
-import java.awt.Rectangle;
-import java.awt.Toolkit;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
+import javax.swing.*;
+import java.awt.*;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.PrintWriter;
-import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.Random;
 
-import javax.swing.JPanel;
-import javax.swing.Timer;
+//import java.awt.Image;
 
 
 public class ElvenBoard extends JPanel {
@@ -88,7 +75,7 @@ public class ElvenBoard extends JPanel {
     public ElvenBoard(double scaler, int monitorHZ) {
     	universalScaler = scaler;
     	computerHZ = monitorHZ;
-		computerHZ = 300;
+		//computerHZ = 300;
     	TIME_BETWEEN_UPDATES = 1000000000 / computerHZ;
     	//testing only
     	speedMultiplier = (double) (60) / (double) computerHZ; //designed for 60, compensates for everything else.

@@ -1,7 +1,7 @@
 //Never cower from difficulty; difficult soil harbors strong roots.
 
 
-import java.awt.Rectangle;
+import java.awt.*;
 
 //package com.zetcode;
 

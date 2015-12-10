@@ -1,4 +1,4 @@
-import java.awt.Rectangle;
+import java.awt.*;
 
 //package com.zetcode;
 
@@ -55,8 +55,8 @@ public class ElvenMissile extends ElvenSprite {
         	double angle = Math.atan((double) yTheTriangle/((double) xTheTriangle));
         	this.angle = angle;
         	
-        	realx += (Math.cos(this.angle) * (((double)ElvenMain.ElvenUpgradeTracking + 5) / 5)) * MISSILE_SPEED;
-        	realy += (Math.sin(this.angle) * (((double)ElvenMain.ElvenUpgradeTracking + 5) / 5)) * MISSILE_SPEED;
+        	realx += (Math.cos(this.angle) * (((double) ElvenMain.ElvenUpgradeTracking + 5) / 5)) * MISSILE_SPEED;
+        	realy += (Math.sin(this.angle) * (((double) ElvenMain.ElvenUpgradeTracking + 5) / 5)) * MISSILE_SPEED;
             
             x = (int) realx;
             y = (int) realy;

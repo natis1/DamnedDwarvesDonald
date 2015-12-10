@@ -1,25 +1,11 @@
 
 //package com.zetcode;
 
-import java.awt.Color;
-import java.awt.DisplayMode;
-import java.awt.GraphicsDevice;
-import java.awt.GraphicsEnvironment;
-import java.awt.Dimension;
-import java.awt.EventQueue;
-import java.awt.Toolkit;
+import javax.swing.*;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.io.BufferedReader;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
-import java.io.IOException;
-import java.io.PrintWriter;
-import java.io.UnsupportedEncodingException;
-
-import javax.swing.JFrame;
-import javax.swing.Timer;
-
+import java.io.*;
 
 
 public class ElvenWindowContainment implements ActionListener {
@@ -46,18 +32,19 @@ public class ElvenWindowContainment implements ActionListener {
     public ElvenWindowContainment() {
     	
     	initUI();
-        
+
+        /*
     	if (ElvenMain.ElvenXResolution == 0){
     		initBlackUI();
     		myGameScreen.toFront();
     	}
     	
     	
-    	
+    	*/
         
         timer = new Timer(DELAY, this);
         timer.start();
-        
+
         
     }
     
@@ -198,10 +185,12 @@ public class ElvenWindowContainment implements ActionListener {
                 	      DisplayMode dm = gs[i].getDisplayMode();
 
                 	       pseudoVSync = dm.getRefreshRate();
+							ElvenMain.ElvenFramerate = pseudoVSync;
                 	      if (pseudoVSync == DisplayMode.REFRESH_RATE_UNKNOWN) {
                 	        System.out.println("Unknown HZ, using 60 because you are probably in a VM or something"); //I love VMs, might add an override
                 	        //if the person runs it from the cmdline with the --hz option.
                 	        pseudoVSync = 60;
+							  ElvenMain.ElvenFramerate = pseudoVSync;
                 	      }
                 	    }
                 	} else {
@@ -319,8 +308,8 @@ public class ElvenWindowContainment implements ActionListener {
     		
     		
     		
-    		myGameScreen.setUndecorated(false);
-            myGameScreen.setResizable(false); //windowed
+    		//myGameScreen.setUndecorated(false);
+            //myGameScreen.setResizable(false); //windowed
     		
     	}
         
@@ -331,34 +320,34 @@ public class ElvenWindowContainment implements ActionListener {
         
     	
     	//panel.setLayout(new FlowLayout(FlowLayout.LEFT));
-        
-        
-        
-        
-        
-        myGameScreen.add(new ElvenBoard(universalScaler, pseudoVSync));
-        
+
+
+
+
+
+		ElvenCutscene1 MyScene = new ElvenCutscene1((int) screenWidth, (int) screenHeight, universalScaler);
+
         //myGameScreen.
         
         
-        myGameScreen.setLocation(screenChangeXBy, screenChangeYBy);
+        //myGameScreen.setLocation(screenChangeXBy, screenChangeYBy);
 
         
         //I sure hope your screen size is an int
-        myGameScreen.setVisible(true);
-        myGameScreen.setSize((int) screenWidth, (int) screenHeight);
+        //myGameScreen.setVisible(true);
+        //myGameScreen.setSize((int) screenWidth, (int) screenHeight);
         
         
-        myGameScreen.setBackground(Color.black);
+        //myGameScreen.setBackground(Color.black);
         
-        myGameScreen.setTitle("Damned Dwarves Deux");
+        //myGameScreen.setTitle("Damned Dwarves Deux");
         //setLocationRelativeTo(null);
         
         //Wait. This means you can't possibly close it without taskMGR
         //OP. Or maybe not, but the school will probably hate me for it.
         //FYI This ain't my damn fault you put a virus on the school computers and are too apathetic
         //to even fix it.
-        myGameScreen.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        //myGameScreen.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         
         
         
@@ -377,7 +366,7 @@ public class ElvenWindowContainment implements ActionListener {
         } finally {
             myDevice.setFullScreenWindow(null);
         }*/
-        myGameScreen.toFront();
+        //myGameScreen.toFront();
         
     }
 

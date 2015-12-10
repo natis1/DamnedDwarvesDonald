@@ -2,7 +2,7 @@
 public class ElvenBackgroundSprite extends ElvenSprite {
 	
 	
-	private int inverseSpeedMultiplier = (int) (1 /ElvenBoard.speedMultiplier);
+	private int inverseSpeedMultiplier = (int) (1 / ElvenBoard.speedMultiplier);
     private float realx;
 	
 	

@@ -1,24 +1,9 @@
-
-import java.awt.Color;
-import java.awt.Font;
-import java.awt.Graphics;
+import javax.swing.*;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.io.BufferedReader;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
-import java.io.IOException;
-import java.io.PrintWriter;
-import java.io.UnsupportedEncodingException;
+import java.io.*;
 import java.util.stream.Stream;
-import javax.swing.AbstractButton;
-import javax.swing.ImageIcon;
-import javax.swing.JButton;
-import javax.swing.JFrame;
-import javax.swing.JMenu;
-import javax.swing.JMenuBar;
-import javax.swing.JMenuItem;
-import javax.swing.JPanel;
 
 public class ElvenMainMenu extends JPanel implements ActionListener {
 	
@@ -244,7 +229,7 @@ public class ElvenMainMenu extends JPanel implements ActionListener {
 		
     	//when compiling for real, remove Images/
     	//TODO: ADD Images/ WHEN COMPILING FOR ECLIPSE
-		ImageIcon startGameIcon = new ImageIcon("Images/ghost.png", "the ghost icon");
+		ImageIcon startGameIcon = new ImageIcon("main/resources/ghost.png", "the ghost icon");
 		
 		
 		startGameButton = new JButton("Play", startGameIcon);

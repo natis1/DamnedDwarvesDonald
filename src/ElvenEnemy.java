@@ -1,4 +1,4 @@
-import java.awt.Rectangle;
+import java.awt.*;
 import java.util.ArrayList;
 //Act with wisdom, but act.
 

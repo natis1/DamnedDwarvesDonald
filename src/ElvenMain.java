@@ -1,5 +1,4 @@
-import java.awt.EventQueue;
-import java.io.File;
+import java.awt.*;
 
 //package com.zetcode;
 

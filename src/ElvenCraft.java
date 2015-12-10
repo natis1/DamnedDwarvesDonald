@@ -1,4 +1,4 @@
-import java.awt.Rectangle;
+import java.awt.*;
 import java.awt.event.KeyEvent;
 import java.util.ArrayList;
 import java.util.Random;
@@ -21,7 +21,7 @@ public class ElvenCraft extends ElvenSprite {
 	private double speedMultiplier = ElvenBoard.speedMultiplier;
 	
 	//More speed = more friction to make it easier to control.
-	private double friction = ( (int)ElvenMain.ElvenUpgradeMovement * ElvenBoard.speedMultiplier) * 0.01;
+	private double friction = ( (int) ElvenMain.ElvenUpgradeMovement * ElvenBoard.speedMultiplier) * 0.01;
 	
 	ElvenPixAlly pixieHelper;
 
@@ -38,8 +38,8 @@ public class ElvenCraft extends ElvenSprite {
 	private Random craftRNG;
 
 	private int generateParticles = 30;
-	private int maxGenerateParticles = (int) ((30 - ElvenMain.ElvenUpgradeMovement)/ElvenBoard.speedMultiplier);
-	private float particleSpeed = (float) (( (1 + (float)ElvenMain.ElvenUpgradeMovement / 5)) * ElvenBoard.speedMultiplier);
+	private int maxGenerateParticles = (int) ((30 - ElvenMain.ElvenUpgradeMovement)/ ElvenBoard.speedMultiplier);
+	private float particleSpeed = (float) (( (1 + (float) ElvenMain.ElvenUpgradeMovement / 5)) * ElvenBoard.speedMultiplier);
 
 
 	private ArrayList<ElvenMissile> Elvenmissiles;
