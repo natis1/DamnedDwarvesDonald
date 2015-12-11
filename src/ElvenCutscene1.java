@@ -1,7 +1,8 @@
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 
 /**
  * Created by scc on 12/10/2015.
@@ -9,7 +10,7 @@ import java.awt.event.ActionListener;
 
 
 
-public class ElvenCutscene1 extends JPanel implements ActionListener {
+public class ElvenCutscene1 extends JPanel implements MouseListener {
 
     private double myScale;
 
@@ -43,6 +44,7 @@ public class ElvenCutscene1 extends JPanel implements ActionListener {
         ImageIcon startGameIcon = new ImageIcon("main/resources/ghost.png", "the ghost icon");
 
         advanceButton = new ElvenSprite(1500, 100, 0, 0, "main/resources/continueButton.png");
+        advanceButton.loadImage();
 
         bg = new ElvenBackgroundSprite("main/resources/cutsceneBackground.png");
         bg.loadImage();
@@ -86,6 +88,7 @@ public class ElvenCutscene1 extends JPanel implements ActionListener {
 
         g2d.drawImage(bg.getImage(), bg.getX(), bg.getY(), this);
         g2d.drawImage(trump.getImage(), trump.getX(), trump.getY(), this);
+        g2d.drawImage(advanceButton.getImage(), advanceButton.getX(), advanceButton.getY(), this);
 
 
         Font font = new Font("Serif", Font.BOLD, 70);
@@ -98,20 +101,59 @@ public class ElvenCutscene1 extends JPanel implements ActionListener {
 
     }
 
+
+
     @Override
-    public void actionPerformed(ActionEvent ae) {
+    public void mouseClicked(MouseEvent me) {
 
-        cutsceneProgress++;
 
-        switch (cutsceneProgress) {
-            case 1:
-                trumpFace = "main/resources/TrumpMad.jpg";
-                cutsceneString = "You will die hacker";
-                break;
-            //testing
+
+
+    }
+
+
+
+
+    //no need for all this
+    @Override
+    public void mousePressed(MouseEvent e) {
+
+    }
+
+    @Override
+    public void mouseReleased(MouseEvent me) {
+
+        System.out.println(me.getX());
+        System.out.println(me.getY());
+
+        if (me.getX()/myScale > advanceButton.getX() && me.getX()/myScale < (advanceButton.getX() + advanceButton.getWidth())
+                && me.getY()/myScale > advanceButton.getY() && me.getY()/myScale < (advanceButton.getY() + advanceButton.getHeight())){
+
+            cutsceneProgress++;
+
+            switch (cutsceneProgress) {
+                case 1:
+                    trumpFace = "main/resources/TrumpMad.jpg";
+                    cutsceneString = "You will die hacker";
+                    break;
+                //testing
+
+            }
+            repaint(); // ok redraw stuff
 
         }
-        repaint(); // ok redraw stuff
+
+
+
+    }
+
+    @Override
+    public void mouseEntered(MouseEvent e) {
+
+    }
+
+    @Override
+    public void mouseExited(MouseEvent e) {
 
     }
 }
