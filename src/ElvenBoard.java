@@ -105,8 +105,8 @@ public class ElvenBoard extends JPanel {
     	
     	Elvenenemies = new ArrayList<ElvenEnemy>();
     	
-    	backgroundSprite1 = new ElvenBackgroundSprite(0, bgImageString);
-    	backgroundSprite2 = new ElvenBackgroundSprite(4000 , bgImageString);
+    	//backgroundSprite1 = new ElvenBackgroundSprite(0, bgImageString);
+    	//backgroundSprite2 = new ElvenBackgroundSprite(4000 , bgImageString);
     	
     	//ElvenBackgroundSprites
     	
@@ -743,10 +743,7 @@ Yes I know it is an oversite, whatever.
 
     private void updateCraft() {
     	
-    	if (graphicsQuality > 1){
-    		backgroundSprite1.move();
-        	backgroundSprite2.move();
-    	}
+
     	
     	
         	spawnTimer++;

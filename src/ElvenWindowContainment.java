@@ -15,8 +15,10 @@ public class ElvenWindowContainment implements ActionListener {
 	private JFrame myBlackScreen;
 	private JFrame myGameScreen;
 	private JFrame myMenuScreen;
-	
-	
+	private JFrame myCutscene;
+
+
+
 	private boolean isRunning = false;
 	
 	private boolean didInit = false;
@@ -33,14 +35,14 @@ public class ElvenWindowContainment implements ActionListener {
     	
     	initUI();
 
-        /*
+
     	if (ElvenMain.ElvenXResolution == 0){
     		initBlackUI();
     		myGameScreen.toFront();
     	}
     	
     	
-    	*/
+
         
         timer = new Timer(DELAY, this);
         timer.start();
@@ -227,6 +229,23 @@ public class ElvenWindowContainment implements ActionListener {
     	            writer.println("0");//y res
     	            writer.println("0");//framerate
     	            writer.close();
+
+
+                    GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
+                    GraphicsDevice[] gs = ge.getScreenDevices();
+
+                    for (int i = 0; i < gs.length; i++) {
+                        DisplayMode dm = gs[i].getDisplayMode();
+
+                        pseudoVSync = dm.getRefreshRate();
+                        ElvenMain.ElvenFramerate = pseudoVSync;
+                        if (pseudoVSync == DisplayMode.REFRESH_RATE_UNKNOWN) {
+                            System.out.println("Unknown HZ, using 60 because you are probably in a VM or something"); //I love VMs, might add an override
+                            //if the person runs it from the cmdline with the --hz option.
+                            pseudoVSync = 60;
+                            ElvenMain.ElvenFramerate = pseudoVSync;
+                        }
+                    }
     	            
     	            
     				
@@ -255,11 +274,11 @@ public class ElvenWindowContainment implements ActionListener {
     	
     	if (ElvenMain.ElvenFramerate != 0){
     		pseudoVSync = ElvenMain.ElvenFramerate;
-    	} 
-    	
-    	
-    	myGameScreen = new JFrame();
-    	myGameScreen.getContentPane().setBackground(Color.BLACK);
+    	}
+
+
+        myGameScreen = new JFrame();
+        myGameScreen.getContentPane().setBackground(Color.BLACK);
     	//set this first
     	
     	
@@ -271,11 +290,11 @@ public class ElvenWindowContainment implements ActionListener {
     	int screenChangeXBy = 0;
         int screenChangeYBy = 0;
         double universalScaler = 1;
-    	
+
     	if (ElvenMain.ElvenXResolution == 0){
     		screenWidth = screenSize.getWidth();
             screenHeight = screenSize.getHeight();
-            
+
             myGameScreen.setUndecorated(true);
             myGameScreen.setResizable(false); //fullscreen
             
@@ -308,8 +327,8 @@ public class ElvenWindowContainment implements ActionListener {
     		
     		
     		
-    		//myGameScreen.setUndecorated(false);
-            //myGameScreen.setResizable(false); //windowed
+    		myGameScreen.setUndecorated(false);
+            myGameScreen.setResizable(false); //windowed
     		
     	}
         
@@ -325,22 +344,23 @@ public class ElvenWindowContainment implements ActionListener {
 
 
 
-		ElvenCutscene1 MyScene = new ElvenCutscene1((int) screenWidth, (int) screenHeight, universalScaler);
+
 
         //myGameScreen.
-        
-        
-        //myGameScreen.setLocation(screenChangeXBy, screenChangeYBy);
+
+        myGameScreen.add(new ElvenCutscene1(universalScaler));
+
+        myGameScreen.setLocation(screenChangeXBy, screenChangeYBy);
 
         
         //I sure hope your screen size is an int
-        //myGameScreen.setVisible(true);
-        //myGameScreen.setSize((int) screenWidth, (int) screenHeight);
+        myGameScreen.setVisible(true);
+        myGameScreen.setSize((int) screenWidth, (int) screenHeight);
         
         
-        //myGameScreen.setBackground(Color.black);
+        myGameScreen.setBackground(Color.black);
         
-        //myGameScreen.setTitle("Damned Dwarves Deux");
+        myGameScreen.setTitle("Damned Dwarves Deux");
         //setLocationRelativeTo(null);
         
         //Wait. This means you can't possibly close it without taskMGR
@@ -379,6 +399,7 @@ public class ElvenWindowContainment implements ActionListener {
             public void run() {
                 
                 ElvenWindowContainment ex = new ElvenWindowContainment();
+
                 ex.myBlackScreen.setVisible(true);
                 ex.myGameScreen.setVisible(true);
             }

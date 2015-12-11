@@ -10,22 +10,26 @@ import java.awt.event.ActionListener;
 
 
 public class ElvenCutscene1 extends JPanel implements ActionListener {
-    private int resolutionX;
-    private int resolutionY;
+
     private double myScale;
 
-    private JButton advanceButton;
+
+    private ElvenBackgroundSprite bg;
+    private ElvenSprite trump;
+
+    private ElvenSprite advanceButton;
 
     private JFrame f;
 
     private int cutsceneProgress = 0;
 
-    private String cutsceneString;
+    private String cutsceneString = "I am a test message (1). This will appear on a cutscene or something, whatever";
+
+    private String trumpFace = "main/resources/TrumpSmug.jpg";
 
 
-    public ElvenCutscene1(int resX, int resY, double scale) {
-        resolutionX = resX;
-        resolutionY = resY;
+    public ElvenCutscene1(double scale) {
+
         myScale = scale;
         initScene();
 
@@ -34,20 +38,18 @@ public class ElvenCutscene1 extends JPanel implements ActionListener {
     private void initScene() {
 
         f = new JFrame("Damned Dwarves Donald");
-        f.setSize(resolutionX, resolutionY);
+        f.setSize(700, 700);
 
         ImageIcon startGameIcon = new ImageIcon("main/resources/ghost.png", "the ghost icon");
 
-        advanceButton = new JButton("Next", startGameIcon);
-        advanceButton.setVerticalTextPosition(AbstractButton.BOTTOM);
-        advanceButton.setHorizontalTextPosition(AbstractButton.CENTER);
-        advanceButton.addActionListener(this);
-        advanceButton.setSize(100, 100);
-        advanceButton.setMaximumSize(new Dimension(100,100));
-        advanceButton.setLocation(150, 150);
-        advanceButton.setVisible(true);
-        f.add(advanceButton);
+        advanceButton = new ElvenSprite(1500, 100, 0, 0, "main/resources/continueButton.png");
 
+        bg = new ElvenBackgroundSprite("main/resources/cutsceneBackground.png");
+        bg.loadImage();
+
+
+        trump = new ElvenSprite(150, 50, 0, 0, trumpFace);
+        trump.loadImage();
 
 
 
@@ -76,11 +78,40 @@ public class ElvenCutscene1 extends JPanel implements ActionListener {
 
         Graphics2D g2d = (Graphics2D) g;
 
+        g2d.scale(myScale, myScale);
+
+
+
+
+
+        g2d.drawImage(bg.getImage(), bg.getX(), bg.getY(), this);
+        g2d.drawImage(trump.getImage(), trump.getX(), trump.getY(), this);
+
+
+        Font font = new Font("Serif", Font.BOLD, 70);
+        g.setFont(font);
+        g.setColor(Color.BLACK);
+        g.drawString(cutsceneString, 25, 560);
+
+
+
 
     }
 
     @Override
     public void actionPerformed(ActionEvent ae) {
+
+        cutsceneProgress++;
+
+        switch (cutsceneProgress) {
+            case 1:
+                trumpFace = "main/resources/TrumpMad.jpg";
+                cutsceneString = "You will die hacker";
+                break;
+            //testing
+
+        }
+        repaint(); // ok redraw stuff
 
     }
 }
