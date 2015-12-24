@@ -24,7 +24,7 @@ public class ElvenCutscene1 extends JPanel implements MouseListener {
 
     private int cutsceneProgress = 0;
 
-    private String cutsceneString = "I am a test message (1). This will appear on a cutscene or something, whatever";
+    private String cutsceneString = "America, I am so happy that you\nfinally elected me to lead this nation.\nAs president my first executive action\nis to kill Bernie Sanders.";
 
     private String trumpFace = "main/resources/TrumpSmug.jpg";
 
@@ -38,12 +38,15 @@ public class ElvenCutscene1 extends JPanel implements MouseListener {
 
     private void initScene() {
 
+
+        addMouseListener(this);
+
         f = new JFrame("Damned Dwarves Donald");
         f.setSize(700, 700);
 
         ImageIcon startGameIcon = new ImageIcon("main/resources/ghost.png", "the ghost icon");
 
-        advanceButton = new ElvenSprite(1500, 100, 0, 0, "main/resources/continueButton.png");
+        advanceButton = new ElvenSprite(1080, 50, 0, 0, "main/resources/continueButton.png");
         advanceButton.loadImage();
 
         bg = new ElvenBackgroundSprite("main/resources/cutsceneBackground.png");
@@ -94,11 +97,19 @@ public class ElvenCutscene1 extends JPanel implements MouseListener {
         Font font = new Font("Serif", Font.BOLD, 70);
         g.setFont(font);
         g.setColor(Color.BLACK);
-        g.drawString(cutsceneString, 25, 560);
+        drawString(g, cutsceneString, 28, 440);
 
 
 
 
+    }
+
+    //multiline strings
+
+    private void drawString(Graphics g, String text, int x, int y) {
+        for (String line : text.split("\n")) {
+            g.drawString(line, x, y += g.getFontMetrics().getHeight());
+        }
     }
 
 
@@ -134,11 +145,41 @@ public class ElvenCutscene1 extends JPanel implements MouseListener {
             switch (cutsceneProgress) {
                 case 1:
                     trumpFace = "main/resources/TrumpMad.jpg";
-                    cutsceneString = "You will die hacker";
+                    cutsceneString = "My second is to become\n" +
+                            "America's dictator. I know\n" +
+                            "you all want me to lead you\n" +
+                            "sheep.";
                     break;
+                case 2:
+                    trumpFace = "main/resources/TrumpThumbs.jpg";
+                    cutsceneString = "If you are not three quarters\n" +
+                            "white, and one quarter bald eagle,\n" +
+                            "you shall be deported or taken\n" +
+                            "as a slave.";
+                    break;
+                case 3:
+                    trumpFace = "main/resources/TrumpPoint.jpg";
+                    cutsceneString = "Also I am banning encryption\n" +
+                            "and the internet, and fun.\n" +
+                            "If we have fun, the\n" +
+                            "terrorists will win.";
+                    break;
+                case 4:
+                    trumpFace = "main/resources/TrumpMad.jpg";
+                    cutsceneString = "And anyone who does not\n" +
+                            "commit at least 5 shootings\n" +
+                            "a day will find themselves\n" +
+                            "a victim of one.";
+                    break;
+
+
+
                 //testing
 
             }
+
+            trump.image_file = trumpFace;
+            trump.loadImage();
             repaint(); // ok redraw stuff
 
         }
