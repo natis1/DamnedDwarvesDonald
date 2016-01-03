@@ -18,13 +18,18 @@ public class ElvenCutscene1 extends JPanel implements MouseListener {
     private ElvenBackgroundSprite bg;
     private ElvenSprite trump;
 
+
+
+
     private ElvenSprite advanceButton;
 
     private JFrame f;
 
     private int cutsceneProgress = 0;
 
-    private String cutsceneString = "America, I am so happy that you\nfinally elected me to lead this nation.\nAs president my first executive action\nis to kill Bernie Sanders.";
+    private String cutsceneString = "America, I am so happy that you finally elected me to lead \nthis once great " +
+            "(until we elected 3/5 of a president) nation. \nAs president my first executive action is: \nKILL Bernie Sanders.\n\n" +
+            "Any Sanders supporters will be taken to the gulag.\nAs well any European immigrants, serves dem commies right.";
 
     private String trumpFace = "main/resources/TrumpSmug.jpg";
 
@@ -94,7 +99,7 @@ public class ElvenCutscene1 extends JPanel implements MouseListener {
         g2d.drawImage(advanceButton.getImage(), advanceButton.getX(), advanceButton.getY(), this);
 
 
-        Font font = new Font("Serif", Font.BOLD, 70);
+        Font font = new Font("Monospaced", Font.BOLD, (int) (50.0 * myScale));
         g.setFont(font);
         g.setColor(Color.BLACK);
         drawString(g, cutsceneString, 28, 440);
@@ -145,31 +150,43 @@ public class ElvenCutscene1 extends JPanel implements MouseListener {
             switch (cutsceneProgress) {
                 case 1:
                     trumpFace = "main/resources/TrumpMad.jpg";
-                    cutsceneString = "My second is to become\n" +
-                            "America's dictator. I know\n" +
-                            "you all want me to lead you\n" +
-                            "sheep.";
+                    cutsceneString = "My second executive action is to become America's dictator.\n" +
+                            "I know you all are sheep and need a leader\nand I am the perfect person to lead.\n" +
+                            "\n" +
+                            "So that is what I am going to do.\nLead this great nation into oblivion. I mean glory.\n" +
+                            "Under my regime, nobody will be sad\nthose who are will be shot.";
                     break;
                 case 2:
                     trumpFace = "main/resources/TrumpThumbs.jpg";
-                    cutsceneString = "If you are not three quarters\n" +
-                            "white, and one quarter bald eagle,\n" +
-                            "you shall be deported or taken\n" +
-                            "as a slave.";
+                    cutsceneString = "If you are not, at the very least three quarters white.\n" +
+                            "(and one quarter bald eagle), then you will be deported.\n" +
+                            "\n" +
+                            "Or taken as a slave in America's great concentration camps\n" +
+                            "\n" +
+                            "Or, as mentioned before, sent to the Gulag.";
                     break;
                 case 3:
-                    trumpFace = "main/resources/TrumpPoint.jpg";
-                    cutsceneString = "Also I am banning encryption\n" +
-                            "and the internet, and fun.\n" +
-                            "If we have fun, the\n" +
-                            "terrorists will win.";
+                    trumpFace = "main/resources/MatrixHacker.png";
+                    cutsceneString = "Hey you. Wanna escape this hell hole?\n" +
+                            "\n" +
+                            "Well you are in luck.\nI have devised a plan to tear down the system.\n" +
+                            "\n" +
+                            "You are a greyhat, so it is either me or death.\n" +
+                            "Deal?";
                     break;
                 case 4:
-                    trumpFace = "main/resources/TrumpMad.jpg";
-                    cutsceneString = "And anyone who does not\n" +
-                            "commit at least 5 shootings\n" +
-                            "a day will find themselves\n" +
-                            "a victim of one.";
+                    trumpFace = "main/resources/MatrixHacker.png";
+                    cutsceneString = "Good. My plan is simple, we are going to stage a coup.\n" +
+                            "We need to secretly replace Donald Trump with a computer.\n" +
+                            "Then, we can order America's Army to take out Trump.\n" +
+                            "\n" +
+                            "This will put us in control and set America free.\n" +
+                            "\n" +
+                            "Let's do it. Click next to go to the main menu.";
+                    break;
+
+                case 5:
+                    ElvenMain.ElvenGameState = -1;
                     break;
 
 

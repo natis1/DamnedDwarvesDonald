@@ -15,28 +15,34 @@ public class ElvenWindowContainment implements ActionListener {
 	private JFrame myBlackScreen;
 	private JFrame myGameScreen;
 	private JFrame myMenuScreen;
-	private JFrame myCutscene;
+	private JFrame myCutScreen;
 
 
 
 	private boolean isRunning = false;
+
+	private boolean spawnBlackBKG = true;
 	
 	private boolean didInit = false;
-	
+
+
+
 	private Timer timer;
 	private int DELAY = 2000;
 	
 	
 	private int pseudoVSync;
-	
+    private double universalScaler;
+
+
 	//private SystemTray tray;
 		
     public ElvenWindowContainment() {
     	
-    	initUI();
+    	initUI("cutscene1");
 
 
-    	if (ElvenMain.ElvenXResolution == 0){
+    	if (ElvenMain.ElvenXResolution == 0 && spawnBlackBKG){
     		initBlackUI();
     		myGameScreen.toFront();
     	}
@@ -89,9 +95,9 @@ public class ElvenWindowContainment implements ActionListener {
     	ElvenMain.ElvenGameState = 1;
     	
     	
-    	initUI();
+    	initUI("game");
         
-    	if (ElvenMain.ElvenXResolution == 0){
+    	if (ElvenMain.ElvenXResolution == 0 && spawnBlackBKG){
     		initBlackUI();
     		myGameScreen.toFront();
     	}
@@ -103,7 +109,7 @@ public class ElvenWindowContainment implements ActionListener {
     public void goToMainMenu(int score){
     	
 		
-    	if (ElvenMain.ElvenXResolution == 0){
+    	if (ElvenMain.ElvenXResolution == 0 && spawnBlackBKG){
     		myBlackScreen.setVisible(false);
         	myBlackScreen.dispose();
     	}
@@ -138,7 +144,7 @@ public class ElvenWindowContainment implements ActionListener {
     }
     
     
-    private void initUI() {
+    private void initUI(String UIName) {
     	
     	isRunning = true;
     	if (!didInit){
@@ -277,90 +283,185 @@ public class ElvenWindowContainment implements ActionListener {
     	}
 
 
-        myGameScreen = new JFrame();
-        myGameScreen.getContentPane().setBackground(Color.BLACK);
-    	//set this first
-    	
-    	
-    	//Get computer screen size
-    	Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
-    	double screenWidth;
-    	double screenHeight;
-    	
-    	int screenChangeXBy = 0;
+        double screenWidth;
+        double screenHeight;
+
+        int screenChangeXBy = 0;
         int screenChangeYBy = 0;
-        double universalScaler = 1;
-
-    	if (ElvenMain.ElvenXResolution == 0){
-    		screenWidth = screenSize.getWidth();
-            screenHeight = screenSize.getHeight();
-
-            myGameScreen.setUndecorated(true);
-            myGameScreen.setResizable(false); //fullscreen
-            
-            if (screenWidth < screenHeight * (16.0 / 9.0)){
-            	//force height to be a nice guy
-            	
-            	screenChangeYBy = -(int) ((screenWidth * ( 9.0 / 16.0) - screenHeight) / 2);
-            	
-            	screenHeight = screenWidth * ( 9.0 / 16.0);
-            	universalScaler = screenHeight / 1080.0;
-            	//Super wide monitors
-            } else if (screenWidth > screenHeight * ( 16.0 / 9.0)) {
-            	//force height to be a nice guy
-            	
-            	screenChangeXBy = -(int) ((screenHeight * ( 16.0 / 9.0) - screenWidth) / 2);
-            	
-            	screenWidth = screenHeight * ( 16.0 / 9.0);
-            	
-            	universalScaler = screenHeight / 1080.0;
-            	
-            }
-            
-            
-    	} else {
-    		screenHeight = ElvenMain.ElvenYResolution;
-    		screenWidth = screenHeight * 16.0 / 9.0;
-    		universalScaler = screenHeight / 1080.0;
-    		
-    		
-    		
-    		
-    		
-    		myGameScreen.setUndecorated(false);
-            myGameScreen.setResizable(false); //windowed
-    		
-    	}
-        
-        
-        
-        
-        //monitor is less than 16:9
-        
-    	
-    	//panel.setLayout(new FlowLayout(FlowLayout.LEFT));
-
-
-
-
-
+        Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
 
 
         //myGameScreen.
+        switch (UIName) {
+            case "game":
+                myGameScreen = new JFrame();
+                myGameScreen.getContentPane().setBackground(Color.BLACK);
+                //set this first
 
-        myGameScreen.add(new ElvenCutscene1(universalScaler));
 
-        myGameScreen.setLocation(screenChangeXBy, screenChangeYBy);
+                //Get computer screen size
 
-        
-        //I sure hope your screen size is an int
-        myGameScreen.setVisible(true);
-        myGameScreen.setSize((int) screenWidth, (int) screenHeight);
-        
-        
-        myGameScreen.setBackground(Color.black);
-        
-        myGameScreen.setTitle("Damned Dwarves Deux");
+
+                universalScaler = 1;
+
+                if (ElvenMain.ElvenXResolution == 0){
+                    screenWidth = screenSize.getWidth();
+                    screenHeight = screenSize.getHeight();
+
+                    myGameScreen.setUndecorated(true);
+                    myGameScreen.setResizable(false); //fullscreen
+
+                    if (screenWidth < screenHeight * (16.0 / 9.0)){
+                        //force height to be a nice guy
+
+                        screenChangeYBy = -(int) ((screenWidth * ( 9.0 / 16.0) - screenHeight) / 2);
+
+                        screenHeight = screenWidth * ( 9.0 / 16.0);
+                        universalScaler = screenHeight / 1080.0;
+                        //Super wide monitors
+                    } else if (screenWidth > screenHeight * ( 16.0 / 9.0)) {
+                        //force height to be a nice guy
+
+                        screenChangeXBy = -(int) ((screenHeight * ( 16.0 / 9.0) - screenWidth) / 2);
+
+                        screenWidth = screenHeight * ( 16.0 / 9.0);
+
+                        universalScaler = screenHeight / 1080.0;
+
+                    }
+
+
+                } else {
+                    screenHeight = ElvenMain.ElvenYResolution;
+
+
+
+                    screenWidth = screenHeight * 16.0 / 9.0;
+                    universalScaler = screenHeight / 1080.0;
+
+
+
+
+
+                    myGameScreen.setUndecorated(false);
+                    myGameScreen.setResizable(false); //windowed
+
+                }
+
+
+                if (screenHeight == screenSize.getHeight()){
+                    spawnBlackBKG = false;
+                }
+
+                //monitor is less than 16:9
+
+
+                //panel.setLayout(new FlowLayout(FlowLayout.LEFT));
+
+                myGameScreen.add(new ElvenBoard(universalScaler, pseudoVSync));
+
+
+
+
+                myGameScreen.setLocation(screenChangeXBy, screenChangeYBy);
+
+
+                //I sure hope your screen size is an int
+                myGameScreen.setVisible(true);
+                myGameScreen.setSize((int) screenWidth, (int) screenHeight);
+
+
+                myGameScreen.setBackground(Color.black);
+
+                myGameScreen.setTitle("Damned Dwarves Deux");
+
+
+
+                break;
+            case "cutscene1":
+                myCutScreen = new JFrame();
+                myCutScreen.getContentPane().setBackground(Color.BLACK);
+                //set this first
+
+
+
+
+                universalScaler = 1;
+
+                if (ElvenMain.ElvenXResolution == 0){
+                    screenWidth = screenSize.getWidth();
+                    screenHeight = screenSize.getHeight();
+
+                    myCutScreen.setUndecorated(true);
+                    myCutScreen.setResizable(false); //fullscreen
+
+                    if (screenWidth < screenHeight * (16.0 / 9.0)){
+                        //force height to be a nice guy
+
+                        screenChangeYBy = -(int) ((screenWidth * ( 9.0 / 16.0) - screenHeight) / 2);
+
+                        screenHeight = screenWidth * ( 9.0 / 16.0);
+                        universalScaler = screenHeight / 1080.0;
+                        //Super wide monitors
+                    } else if (screenWidth > screenHeight * ( 16.0 / 9.0)) {
+                        //force height to be a nice guy
+
+                        screenChangeXBy = -(int) ((screenHeight * ( 16.0 / 9.0) - screenWidth) / 2);
+
+                        screenWidth = screenHeight * ( 16.0 / 9.0);
+
+                        universalScaler = screenHeight / 1080.0;
+
+                    }
+
+
+                } else {
+                    screenHeight = ElvenMain.ElvenYResolution;
+
+
+
+                    screenWidth = screenHeight * 16.0 / 9.0;
+                    universalScaler = screenHeight / 1080.0;
+
+
+
+
+
+                    myCutScreen.setUndecorated(false);
+                    myCutScreen.setResizable(false); //windowed
+
+                }
+
+
+                if (screenHeight == screenSize.getHeight()){
+                    spawnBlackBKG = false;
+                }
+
+                //monitor is less than 16:9
+
+
+                //panel.setLayout(new FlowLayout(FlowLayout.LEFT));
+
+                myCutScreen.add(new ElvenCutscene1(universalScaler));
+
+
+
+
+                myCutScreen.setLocation(screenChangeXBy, screenChangeYBy);
+
+
+                //I sure hope your screen size is an int
+                myCutScreen.setVisible(true);
+                myCutScreen.setSize((int) screenWidth, (int) screenHeight);
+
+
+                myCutScreen.setBackground(Color.black);
+
+                myCutScreen.setTitle("Damned Dwarves Deux");
+                break;
+        }
+
+
         //setLocationRelativeTo(null);
         
         //Wait. This means you can't possibly close it without taskMGR
@@ -409,7 +510,22 @@ public class ElvenWindowContainment implements ActionListener {
 
 @Override
 public void actionPerformed(ActionEvent e) {
-		
+		//-1 = terminate cutscene
+    if (ElvenMain.ElvenGameState == -1){
+        myCutScreen.setVisible(false);
+        myCutScreen.removeAll();
+        myCutScreen.dispose();
+
+
+        initUI("game");
+
+        ElvenMain.ElvenGameState = 1;
+
+
+    }
+
+
+
 	if (ElvenMain.ElvenGameState > 999){
 		
 		goToMainMenu(ElvenMain.ElvenGameState - 1000);
