@@ -25,17 +25,8 @@ public class ElvenEnemy extends ElvenSprite {
     
     private final double speedMultiplier = ElvenBoard.speedMultiplier;
     
-    
-    public double universalScaler;
-    
-    
-    //Missile data
-    private int nextEnemyMissile;
-    public ArrayList<ElvenEnemyMissile> elvenEnemyMissiles;
-    
-    //Missile garbage collector
-    //Will self nuke in t-50.
-    public int missileGarbageCollector = 200;
+
+
     
     private float realx;
     
@@ -51,8 +42,7 @@ public class ElvenEnemy extends ElvenSprite {
 
 
         super(2000, 0, -Math.PI/2, 50, "main/resources/elvenelf1.png");
-        universalScaler = scaler;
-        
+
         initEnemy(elvenActionToTake);
     }
 
@@ -63,9 +53,7 @@ public class ElvenEnemy extends ElvenSprite {
     
     
     private void initEnemy(long elvenActionToTake) {
-    	
-    	elvenEnemyMissiles = new ArrayList<ElvenEnemyMissile>();
-    	nextEnemyMissile = 50;
+
     	
     	
         //So many possibilites. We need one for every y co-ord and every elvenEnemyType
@@ -208,37 +196,7 @@ public class ElvenEnemy extends ElvenSprite {
     	
     	if (vis){
     		
-    		if (nextEnemyMissile <= 0){
-        		if (elvenEnemyType == 0 || elvenEnemyType == 4 || elvenEnemyType == 7){
-        			
-        			elvenEnemyMissiles.add(new ElvenEnemyMissile( x, 
-            				y + height/2, this.angle, "main/resources/ElvenEnemyBullet0.png"));
-        			
-        			//Reset based on enemy type
-        			nextEnemyMissile = (int) ((70 - (ElvenMain.ElvenGameDifficulty * 2)) / speedMultiplier);
-        		}
-        		if (elvenEnemyType == 1 || elvenEnemyType == 5 || elvenEnemyType == 8){
-        			
-        			elvenEnemyMissiles.add(new ElvenEnemyMissile( x, 
-            				y + height/2, this.angle, "main/resources/ElvenEnemyBullet0.png"));
-        			
-        			//Reset based on enemy type
-        			nextEnemyMissile = (int) ((30  - (ElvenMain.ElvenGameDifficulty)) / speedMultiplier);
-        		}
-        		if (elvenEnemyType == 6 || elvenEnemyType == 2){
-        			
-        			elvenEnemyMissiles.add(new ElvenEnemyMissile( x, 
-            				y + height/2, this.angle, "main/resources/ElvenEnemyBullet0.png"));
-        			
-        			//Reset based on enemy type
-        			nextEnemyMissile = (int) ((120  - (ElvenMain.ElvenGameDifficulty * 3)) / speedMultiplier);
-        		}
-        		
-        		
-        	}
-    		
-    		
-        	nextEnemyMissile--;
+
         	
             
             realx -= elvenEnemySpeed;
@@ -255,15 +213,9 @@ public class ElvenEnemy extends ElvenSprite {
     	}
         
     	
-    	
-    	
-    	
-        for (int i = 0; i < elvenEnemyMissiles.size(); i++) {
-            ElvenEnemyMissile e = (ElvenEnemyMissile) elvenEnemyMissiles.get(i);
-            if (!e.isVisible()) {
-            	elvenEnemyMissiles.remove(i);
-            }
-        }
+
+
+
     	
     	
     	
