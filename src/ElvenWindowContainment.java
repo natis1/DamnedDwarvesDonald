@@ -428,27 +428,57 @@ public class ElvenWindowContainment implements ActionListener {
 
 @Override
 public void actionPerformed(ActionEvent e) {
-		//-1 = terminate cutscene
+		//-1 = main menu
     if (ElvenMain.ElvenGameState == -1){
         myGameScreen.setVisible(false);
         myGameScreen.removeAll();
         myGameScreen.dispose();
 
-        try {
-            Thread.sleep(500);
-        } catch (InterruptedException e1) {
-            e1.printStackTrace();
-        }
+
+		//Nothing like reiniting my perfectly working window. No reason for a new one.
 
         initUI("game");
 
         ElvenMain.ElvenGameState = 1;
 
+        //1 = New Game
+    } else if (ElvenMain.ElvenGameState == 1){
 
+
+        //2 NG+
+    } else if (ElvenMain.ElvenGameState == 2){
+
+
+        //3 Load Game
+    } else if (ElvenMain.ElvenGameState == 3){
+
+
+        //16 End Cutscene and load game
+    } else if (ElvenMain.ElvenGameState == 16){
+
+
+        //18 End Cutscene 2
+    } else if (ElvenMain.ElvenGameState == 18){
+
+
+        //19 Cutscene 3
+    } else if (ElvenMain.ElvenGameState == 19){
+
+
+        //20 End Cutscene 3
+    } else if (ElvenMain.ElvenGameState == 20){
+
+
+        //21 Cutscene 4
+    } else if (ElvenMain.ElvenGameState == 21){
+
+
+        //22 End Cutscene 4
     }
 
 
 
+/*
 	if (ElvenMain.ElvenGameState > 999){
 		
 		goToMainMenu(ElvenMain.ElvenGameState - 1000);
@@ -458,7 +488,7 @@ public void actionPerformed(ActionEvent e) {
 	} else if (ElvenMain.ElvenGameState > 9 && ElvenMain.ElvenGameState < 256){
 		goBackToGame();
 	}
-		
+		*/
 	
 }
 
