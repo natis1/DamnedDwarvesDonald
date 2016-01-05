@@ -14,58 +14,37 @@ public class ElvenBoard extends JPanel {
 
     //private KeyboardAnimation animation2
 
-    private final int ICRAFT_X = 200;
-    private final int ICRAFT_Y = 500;
     
     private double universalScaler;
-    
-    private int health = 100;
-    
-    private int frameCount = 0;
+
     private double now;
     private int computerHZ;
     private boolean is4K;
     private int lastSecondTime;
     private double lastUpdateTime;
-    
+
     public static double speedMultiplier;
-    
-    private boolean didCreateTheMainMenu = false;
     double TIME_BETWEEN_UPDATES;
-    
-    private int souls = 0;
-    private int totalSouls = ElvenMain.ElvenSoulsStolen;
-    
-    public boolean isGameOver = false;
-    private int score = 0;
-    
-    private final int difficultyLevel = ElvenMain.ElvenGameDifficulty;
 
     //This caps the game framerate, which means that the game doesn't use delta-T
     //For calculating movement. I think this is fine if we set the cap at something like 144hz (~7)
     //Smooth enough for most monitors even if eyes can still see past it.
 
 
-    //Hopefully all monitors support G-sync in the future :)
-    private ArrayList<ElvenEnemy> Elvenenemies;
-    public int spawnTimer = 0;
-    
+
     private String bgImageString;
 
 
-    public Random universalRandomNumberGenerator;
 
-                
-    private ElvenBackgroundSprite backgroundSprite1;
-    private ElvenBackgroundSprite backgroundSprite2;
-    
+    private ElvenBackgroundSprite backgroundSprite;
+
     
     //3- Draw all, 2- No useless sprites, 1- No moving background, 0- TBD when we need more GPU capabilities.
     private int graphicsQuality = 3;
-    
-    
+
+
     private int frameCatchup = 0;
-    
+
     
     
     public ElvenBoard(double scaler, int monitorHZ) {
@@ -89,15 +68,16 @@ public class ElvenBoard extends JPanel {
 
 
         if (universalScaler <= 1.0001){
-            bgImageString = "main/resources/background2.png";
+            bgImageString = "main/resources/mainMenuScreen.png";
             is4K = false;
         } else {
-            bgImageString = "main/resources/background4.png";
+            bgImageString = "main/resources/mainMenuScreen.png";
             is4K = true; //maybe if I ever use 4k images for other stuff,
         }
 
+        backgroundSprite = new ElvenBackgroundSprite(bgImageString);
 
-        
+
         runGameLoop();
 
     }
@@ -123,10 +103,12 @@ Yes I know it is an oversite, whatever.
     private void doDrawing(Graphics g) {
 
         Graphics2D g2d = (Graphics2D) g;
+        g2d.scale(universalScaler, universalScaler);
 
 
         //Draw stuff here
-
+        g2d.drawImage(backgroundSprite.getImage(), backgroundSprite.getX(),
+                backgroundSprite.getY(), this);
 
 
 
@@ -251,14 +233,14 @@ Yes I know it is an oversite, whatever.
     {
 
         repaint();
-        frameCount++;
+
     }
 
 
     
     public void update() {
 
-        if (!isGameOver){
+
 
             if (graphicsQuality > 2){
                 updateParticles();
@@ -266,10 +248,7 @@ Yes I know it is an oversite, whatever.
 
             float interpolation = Math.min(1.0f, (float) ((now - lastUpdateTime) / TIME_BETWEEN_UPDATES) );
             drawGame(interpolation);
-        } else {
-            float interpolation = Math.min(1.0f, (float) ((now - lastUpdateTime) / TIME_BETWEEN_UPDATES) );
-            drawGame(interpolation);
-        }
+
 
         //NOT DONE HERE ANYMORE
         //repaint();
