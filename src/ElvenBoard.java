@@ -18,7 +18,7 @@ public class ElvenBoard extends JPanel {
     private double universalScaler;
 
     private double now;
-    private int computerHZ;
+    private int gameHZ;
     private boolean is4K;
     private int lastSecondTime;
     private double lastUpdateTime;
@@ -26,9 +26,7 @@ public class ElvenBoard extends JPanel {
     public static double speedMultiplier;
     double TIME_BETWEEN_UPDATES;
 
-    //This caps the game framerate, which means that the game doesn't use delta-T
-    //For calculating movement. I think this is fine if we set the cap at something like 144hz (~7)
-    //Smooth enough for most monitors even if eyes can still see past it.
+
 
 
 
@@ -40,22 +38,44 @@ public class ElvenBoard extends JPanel {
 
     
     //3- Draw all, 2- No useless sprites, 1- No moving background, 0- TBD when we need more GPU capabilities.
-    private int graphicsQuality = 3;
 
+
+    //I Think this feature is kind of pointless in a 2D game but I included it anyway. If your game stutters
+    //for too long it will automatically reduce the graphics until the stuttering stops.
+    private int graphicsQuality = 3;
 
     private int frameCatchup = 0;
 
-    
+
+    /**
+
+    By default this class is simply used to record the framerate and the relative resolution
+     compared to 60 and 1080p respectively. It
+
+
+
+
+
+    */
     
     public ElvenBoard(double scaler, int monitorHZ) {
         universalScaler = scaler;
-        computerHZ = monitorHZ;
-        //computerHZ = 300;
-        TIME_BETWEEN_UPDATES = 1000000000 / computerHZ;
-        //testing only
-        speedMultiplier = (double) (60) / (double) computerHZ; //designed for 60, compensates for everything else.
 
-        //100% working on every multiple of 60, everything exept background works perfectly on any other number.
+
+        gameHZ = monitorHZ;
+
+
+        TIME_BETWEEN_UPDATES = 1000000000 / gameHZ;
+
+
+
+        //designed for 60, compensates for everything else.
+
+        //100% working on every multiple of 60, everything except background works perfectly on any other number.
+        //This is because background draws using an int or something. I honestly do not know but I can speculate.
+        speedMultiplier = (double) (60) / (double) gameHZ;
+
+
         initBoard();
         
         
@@ -85,19 +105,25 @@ public class ElvenBoard extends JPanel {
     @Override
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
-
         doDrawing(g);
-
         Toolkit.getDefaultToolkit().sync();
     }
 
 
 /** This function draws all of the sprites using graphics2D libraries
-All drawing must be called from the board
-You cannot call doDrawing from other classes, to add a sprite to
-the drawing queue, create the class inside the board.
+ All drawing must be called from the board
+ You cannot call doDrawing from other classes, to add a sprite to
+ the drawing queue, create the class inside the board.
 
-Yes I know it is an oversite, whatever.
+
+
+ In a fork of this project you actually CAN do this, but it is so interdependent that you remove any
+ one class and you need to edit over 50 lines.
+
+
+ In these versions: Donald, Deux, and Codename: Hitler Trampoline Hero the graphics function looks like below:
+
+
 
 */
     private void doDrawing(Graphics g) {
@@ -121,6 +147,8 @@ Yes I know it is an oversite, whatever.
     }
 
     //Starts a new thread and runs the game loop in it.
+
+    //This thread is separate so I can do my best to keep the game running at a stable framerate
     public void runGameLoop()
     {
         Thread loop = new Thread()
@@ -135,23 +163,16 @@ Yes I know it is an oversite, whatever.
     
     public void gameLoop()
     {
-        //This value would probably be stored elsewhere.
 
-
-        //Always get lots of hz even if it isn't possible to render this many frames
-
-        //Calculate how many ns each frame should take for our target game hertz.
-
-        //At the very most we will update the game this many times before a new render.
-        //If you're worried about visual hitches more than perfect timing, set this to 1.
+        //The lower this is the more the game will use slowdown instead of stuttering.
         final int MAX_UPDATES_BEFORE_RENDER = 100;
-        //We will need the last update time.
+        
+        //Get the current render and update time to the nanosecond. IDK why last update time is previously initialized.
         lastUpdateTime = System.nanoTime();
-        //Store the last time we rendered.
         double lastRenderTime = System.nanoTime();
 
         //If we are able to get as high as this FPS, don't render again.
-        final double TARGET_FPS = computerHZ;
+        final double TARGET_FPS = gameHZ;
         final double TARGET_TIME_BETWEEN_RENDERS = 1000000000 / TARGET_FPS;
 
         //Simple way of finding FPS.
@@ -219,8 +240,8 @@ Yes I know it is an oversite, whatever.
                     Thread.yield();
 
                     //This stops the app from consuming all your CPU. It makes this slightly less accurate, but is worth it.
-                    //You can remove this line and it will still work (better), your CPU just climbs on certain OSes.
-                    //FYI on some OS's this can cause pretty bad stuttering. Scroll down and have a look at different peoples' solutions to this.
+                    //You can remove this line and it will still work (better), your CPU just climbs on certain OSes. Or something, IDK.
+                    //This is what the stack overflow comment said but I am not sure it is entirely accurate. It seems to run fine on Manjaro.
                     try {Thread.sleep(1);} catch(Exception e) {}
 
                     now = System.nanoTime();
