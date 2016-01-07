@@ -15,26 +15,18 @@ public class ElvenBoard extends JPanel {
     //private KeyboardAnimation animation2
 
     
-    private double universalScaler;
+    private double universalScaler; // This determines the resolution relative to 1080p
 
-    private double now;
-    private int gameHZ;
-    private boolean is4K;
-    private int lastSecondTime;
+    private double now; // Used in drawing the game
+    private int gameHZ; // Used to determine game framerate
+    private boolean is4K; // Possibly used later to determine to load high or low quality images
     private double lastUpdateTime;
 
     public static double speedMultiplier;
     double TIME_BETWEEN_UPDATES;
 
 
-
-
-
-    private String bgImageString;
-
-
-
-    private ElvenBackgroundSprite backgroundSprite;
+    private ElvenSprite backgroundSprite;
 
     
     //3- Draw all, 2- No useless sprites, 1- No moving background, 0- TBD when we need more GPU capabilities.
@@ -71,8 +63,7 @@ public class ElvenBoard extends JPanel {
 
         //designed for 60, compensates for everything else.
 
-        //100% working on every multiple of 60, everything except background works perfectly on any other number.
-        //This is because background draws using an int or something. I honestly do not know but I can speculate.
+        //100% working on every multiple of 60, everything else should work on other numbers as ints are rarely used in favor of floats.
         speedMultiplier = (double) (60) / (double) gameHZ;
 
 
@@ -84,9 +75,7 @@ public class ElvenBoard extends JPanel {
     private void initBoard() {
 
 
-
-
-
+        String bgImageString;
         if (universalScaler <= 1.0001){
             bgImageString = "main/resources/mainMenuScreen.png";
             is4K = false;
@@ -95,8 +84,10 @@ public class ElvenBoard extends JPanel {
             is4K = true; //maybe if I ever use 4k images for other stuff,
         }
 
-        backgroundSprite = new ElvenBackgroundSprite(bgImageString);
+        //Draw the background sprite. This is used as an example of how to use g2d and sprite
 
+        backgroundSprite = new ElvenSprite(0, 0, 0, 0, bgImageString);
+        backgroundSprite.loadImage();
 
         runGameLoop();
 
@@ -176,7 +167,7 @@ public class ElvenBoard extends JPanel {
         final double TARGET_TIME_BETWEEN_RENDERS = 1000000000 / TARGET_FPS;
 
         //Simple way of finding FPS.
-        lastSecondTime = (int) (lastUpdateTime / 1000000000);
+        int lastSecondTime = (int) (lastUpdateTime / 1000000000);
 
         while (true)
         {

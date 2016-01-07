@@ -15,7 +15,7 @@ public class ElvenCutscene1 extends JPanel implements MouseListener {
     private double myScale;
 
 
-    private ElvenBackgroundSprite bg;
+    private ElvenSprite bg;
     private ElvenSprite trump;
 
 
@@ -54,7 +54,7 @@ public class ElvenCutscene1 extends JPanel implements MouseListener {
         advanceButton = new ElvenSprite(1080, 50, 0, 0, "main/resources/continueButton.png");
         advanceButton.loadImage();
 
-        bg = new ElvenBackgroundSprite("main/resources/cutsceneBackground.png");
+        bg = new ElvenSprite(0, 0, 0, 0, "main/resources/cutsceneBackground.png");
         bg.loadImage();
 
 
