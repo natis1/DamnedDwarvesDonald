@@ -360,11 +360,15 @@ public class ElvenWindowContainment implements ActionListener {
         //myGameScreen.
         switch (UIName) {
             case "game":
-                myGameScreen.add(new ElvenBoard(universalScaler, pseudoVSync));
+                myGameScreen.add(new ElvenMenuPanel(universalScaler, pseudoVSync));
                 break;
             case "cutscene1":
                 myGameScreen.add(new ElvenCutscene1(universalScaler));
                 break;
+			case "windows":
+				myGameScreen.add(new ElvenWindowsGame(universalScaler, pseudoVSync));
+				break;
+
         }
 
 
@@ -429,52 +433,87 @@ public class ElvenWindowContainment implements ActionListener {
 @Override
 public void actionPerformed(ActionEvent e) {
 		//-1 = main menu
-    if (ElvenMain.ElvenGameState == -1){
-        myGameScreen.setVisible(false);
-        myGameScreen.removeAll();
-        myGameScreen.dispose();
+	switch (ElvenMain.ElvenGameState) {
+		case 0:
+
+			//Do nothing, stops it from checking other cases.
+
+			break;
 
 
-		//Nothing like reiniting my perfectly working window. No reason for a new one.
-
-        initUI("game");
-
-        ElvenMain.ElvenGameState = 1;
-
-        //1 = New Game
-    } else if (ElvenMain.ElvenGameState == 1){
+		case -1:
+			myGameScreen.setVisible(false);
+			myGameScreen.removeAll();
+			myGameScreen.dispose();
 
 
-        //2 NG+
-    } else if (ElvenMain.ElvenGameState == 2){
+			//Nothing like reiniting my perfectly working window. No reason for a new one.
+
+			initUI("game");
 
 
-        //3 Load Game
-    } else if (ElvenMain.ElvenGameState == 3){
+			// 0 do nothing
+			ElvenMain.ElvenGameState = 0;
+
+			//1 = New Game
+			break;
+		case 1:
+
+			myGameScreen.setVisible(false);
+			myGameScreen.removeAll();
+			myGameScreen.dispose();
 
 
-        //16 End Cutscene and load game
-    } else if (ElvenMain.ElvenGameState == 16){
+			initUI("windows");
 
 
-        //18 End Cutscene 2
-    } else if (ElvenMain.ElvenGameState == 18){
+			// 0 do nothing
+			ElvenMain.ElvenGameState = 0;
 
 
-        //19 Cutscene 3
-    } else if (ElvenMain.ElvenGameState == 19){
+			//2 NG+
+			break;
+		case 2:
 
 
-        //20 End Cutscene 3
-    } else if (ElvenMain.ElvenGameState == 20){
+			//3 Load Game
+			break;
+		case 3:
 
 
-        //21 Cutscene 4
-    } else if (ElvenMain.ElvenGameState == 21){
+			//16 End Cutscene and load game
+			break;
+		case 16:
 
 
-        //22 End Cutscene 4
-    }
+			//17 End Cutscene 2
+			break;
+		case 17:
+
+
+			//18 Cutscene 3
+			break;
+		case 18:
+
+
+			//19 End Cutscene 3
+			break;
+		case 19:
+
+
+			//20 Cutscene 4
+			break;
+		case 20:
+
+
+			//21 End Cutscene 4
+			break;
+		case 21:
+
+
+
+			break;
+	}
 
 
 

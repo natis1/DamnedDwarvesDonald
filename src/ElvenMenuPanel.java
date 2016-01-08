@@ -4,13 +4,15 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import java.util.ArrayList;
 import java.util.Random;
 
 //import java.awt.Image;
 
 
-public class ElvenBoard extends JPanel {
+public class ElvenMenuPanel extends JPanel implements MouseListener {
 
     //private KeyboardAnimation animation2
 
@@ -50,7 +52,7 @@ public class ElvenBoard extends JPanel {
 
     */
     
-    public ElvenBoard(double scaler, int monitorHZ) {
+    public ElvenMenuPanel(double scaler, int monitorHZ) {
         universalScaler = scaler;
 
 
@@ -74,6 +76,7 @@ public class ElvenBoard extends JPanel {
 
     private void initBoard() {
 
+        addMouseListener(this);
 
         String bgImageString;
         if (universalScaler <= 1.0001){
@@ -273,14 +276,59 @@ public class ElvenBoard extends JPanel {
 
 
     }
-    
-    
-    
-    
 
-    private class TAdapter extends KeyAdapter {
 
-        //TODO KEYBOARD SUPPORT
+
+    @Override
+    public void mouseClicked(MouseEvent me) {
+
+
+
 
     }
+
+
+
+
+    //no need for all this
+    @Override
+    public void mousePressed(MouseEvent e) {
+
+    }
+
+    @Override
+    public void mouseReleased(MouseEvent me) {
+
+        System.out.println(me.getX() / universalScaler);
+        System.out.println(me.getY() / universalScaler);
+
+        if ((me.getX() / universalScaler) > 1030 && (me.getY() / universalScaler < 316)){
+
+            //1 = start windows game new.
+            ElvenMain.ElvenGameState = 1;
+
+            //TODO ADD SOMETHING HERE
+
+
+        }
+
+
+
+
+
+    }
+
+    @Override
+    public void mouseEntered(MouseEvent e) {
+
+    }
+
+    @Override
+    public void mouseExited(MouseEvent e) {
+
+    }
+
+
+
+
 }

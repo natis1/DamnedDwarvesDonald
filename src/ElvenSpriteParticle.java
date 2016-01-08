@@ -46,9 +46,9 @@ public class ElvenSpriteParticle extends ElvenSprite {
         
         
         // This is because the board also moves left. Slightly less movement then you would expect but brains are odd
-        realx -= 5 * ElvenBoard.speedMultiplier;
+        realx -= 5 * ElvenMenuPanel.speedMultiplier;
 
-        myAlpha -= .01 * ElvenBoard.speedMultiplier;
+        myAlpha -= .01 * ElvenMenuPanel.speedMultiplier;
         
         x = (int) realx;
         y = (int) realy;

@@ -8,7 +8,7 @@ public class ElvenMissile extends ElvenSprite {
 	
 	//Should be 2000* resolution scale
     private final int BOARD_WIDTH = 2000;
-    private final double MISSILE_SPEED = (7.0 * ElvenBoard.speedMultiplier);
+    private final double MISSILE_SPEED = (7.0 * ElvenMenuPanel.speedMultiplier);
     private double angle;
     
     private float realy;

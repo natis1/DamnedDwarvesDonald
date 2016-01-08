@@ -1,5 +1,4 @@
 import java.awt.*;
-import java.util.ArrayList;
 //Act with wisdom, but act.
 
 
@@ -18,12 +17,12 @@ public class ElvenEnemy extends ElvenSprite {
     //All enemies controlled by this class so that they can be in one array though.
     protected int elvenEnemyType;
 
-    private double elvenEnemySpeed = ElvenBoard.speedMultiplier;
+    private double elvenEnemySpeed = ElvenMenuPanel.speedMultiplier;
     
     private double elvenEnemyYSpeed = 0;
     
     
-    private final double speedMultiplier = ElvenBoard.speedMultiplier;
+    private final double speedMultiplier = ElvenMenuPanel.speedMultiplier;
     
 
 
@@ -65,18 +64,18 @@ public class ElvenEnemy extends ElvenSprite {
 
         //0 - ? possible
         elvenEnemyType = realElvenAction / 1080;
-        elvenEnemySpeed = ElvenBoard.speedMultiplier * (10  + (ElvenMain.ElvenGameDifficulty / 4));
+        elvenEnemySpeed = ElvenMenuPanel.speedMultiplier * (10  + (ElvenMain.ElvenGameDifficulty / 4));
         
         if (elvenEnemyType < 0){
         	elvenEnemyType = 0 - elvenEnemyType;
         }
         switch (elvenEnemyType) {
         case 0: this.image_file = "main/resources/e1.png";
-    	elvenEnemySpeed = ElvenBoard.speedMultiplier * (8  + (ElvenMain.ElvenGameDifficulty / 4));
+    	elvenEnemySpeed = ElvenMenuPanel.speedMultiplier * (8  + (ElvenMain.ElvenGameDifficulty / 4));
     	break;
     	
         case 1: this.image_file = "main/resources/e2.png";
-    	elvenEnemySpeed = ElvenBoard.speedMultiplier * (5  + (ElvenMain.ElvenGameDifficulty / 4));
+    	elvenEnemySpeed = ElvenMenuPanel.speedMultiplier * (5  + (ElvenMain.ElvenGameDifficulty / 4));
     	break;
     	
         case 2:
@@ -84,31 +83,31 @@ public class ElvenEnemy extends ElvenSprite {
     	
         case 3: this.image_file = "main/resources/asteroid.png";
     	EnemyHP = 50000;
-    	elvenEnemySpeed = ElvenBoard.speedMultiplier * (5  + (ElvenMain.ElvenGameDifficulty / 4));
+    	elvenEnemySpeed = ElvenMenuPanel.speedMultiplier * (5  + (ElvenMain.ElvenGameDifficulty / 4));
     	break;
         
         case 4: this.image_file = "main/resources/e1.png";
-    	elvenEnemyYSpeed = ElvenBoard.speedMultiplier * (3  + (ElvenMain.ElvenGameDifficulty / 4));
-    	elvenEnemySpeed = ElvenBoard.speedMultiplier * 4;
+    	elvenEnemyYSpeed = ElvenMenuPanel.speedMultiplier * (3  + (ElvenMain.ElvenGameDifficulty / 4));
+    	elvenEnemySpeed = ElvenMenuPanel.speedMultiplier * 4;
     	break;
     	
         case 5: this.image_file = "main/resources/e2.png";
-    	elvenEnemyYSpeed = ElvenBoard.speedMultiplier * (1  + (ElvenMain.ElvenGameDifficulty / 4));
-    	elvenEnemySpeed = ElvenBoard.speedMultiplier * 4;
+    	elvenEnemyYSpeed = ElvenMenuPanel.speedMultiplier * (1  + (ElvenMain.ElvenGameDifficulty / 4));
+    	elvenEnemySpeed = ElvenMenuPanel.speedMultiplier * 4;
     	break;
     	
         case 6:
-        elvenEnemySpeed = ElvenBoard.speedMultiplier * 5;
+        elvenEnemySpeed = ElvenMenuPanel.speedMultiplier * 5;
         break;
     	
         case 7: this.image_file = "main/resources/e1.png";
-    	elvenEnemyYSpeed = ElvenBoard.speedMultiplier * (3  + (ElvenMain.ElvenGameDifficulty / 4));
-    	elvenEnemySpeed = ElvenBoard.speedMultiplier * 5;
+    	elvenEnemyYSpeed = ElvenMenuPanel.speedMultiplier * (3  + (ElvenMain.ElvenGameDifficulty / 4));
+    	elvenEnemySpeed = ElvenMenuPanel.speedMultiplier * 5;
     	break;
     	
         case 8: this.image_file = "main/resources/e2.png";
-    	elvenEnemyYSpeed = ElvenBoard.speedMultiplier * (1  + (ElvenMain.ElvenGameDifficulty / 4));
-    	elvenEnemySpeed = ElvenBoard.speedMultiplier * 5;
+    	elvenEnemyYSpeed = ElvenMenuPanel.speedMultiplier * (1  + (ElvenMain.ElvenGameDifficulty / 4));
+    	elvenEnemySpeed = ElvenMenuPanel.speedMultiplier * 5;
     	break;
         
         
