@@ -102,7 +102,7 @@ public class ElvenCutscene1 extends JPanel implements MouseListener {
         Font font = new Font("Monospaced", Font.BOLD, (int) (50.0 * myScale));
         g.setFont(font);
         g.setColor(Color.BLACK);
-        drawString(g, cutsceneString, 28, 440);
+        drawString(g, cutsceneString, 28, 470);
 
 
 
