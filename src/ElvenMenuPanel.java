@@ -30,6 +30,7 @@ public class ElvenMenuPanel extends JPanel implements MouseListener {
 
     private ElvenSprite backgroundSprite;
 
+
     
     //3- Draw all, 2- No useless sprites, 1- No moving background, 0- TBD when we need more GPU capabilities.
 
@@ -91,6 +92,10 @@ public class ElvenMenuPanel extends JPanel implements MouseListener {
 
         backgroundSprite = new ElvenSprite(0, 0, 0, 0, bgImageString);
         backgroundSprite.loadImage();
+
+
+
+
 
         runGameLoop();
 

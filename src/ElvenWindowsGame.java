@@ -31,6 +31,12 @@ public class ElvenWindowsGame extends JPanel implements MouseListener {
     private ElvenSprite backgroundSprite;
 
 
+    private int towerSelected = -1;
+
+
+    private ElvenTowerSprite tower0;
+
+
     //3- Draw all, 2- No useless sprites, 1- No moving background, 0- TBD when we need more GPU capabilities.
 
 
@@ -91,6 +97,9 @@ public class ElvenWindowsGame extends JPanel implements MouseListener {
 
         backgroundSprite = new ElvenSprite(0, 0, 0, 0, bgImageString);
         backgroundSprite.loadImage();
+        tower0 = new ElvenTowerSprite(1445, 0, 0, "main/resources/towers/torrenter5.png");
+
+
 
         runGameLoop();
 
@@ -129,6 +138,8 @@ public class ElvenWindowsGame extends JPanel implements MouseListener {
         //Draw stuff here
         g2d.drawImage(backgroundSprite.getImage(), backgroundSprite.getX(),
                 backgroundSprite.getY(), this);
+
+        g2d.drawImage(tower0.getImage(), tower0.getX(), tower0.getY(), this);
 
 
 
@@ -294,6 +305,9 @@ public class ElvenWindowsGame extends JPanel implements MouseListener {
     @Override
     public void mousePressed(MouseEvent e) {
 
+        
+
+
     }
 
     @Override
@@ -302,8 +316,9 @@ public class ElvenWindowsGame extends JPanel implements MouseListener {
         System.out.println(me.getX() / universalScaler);
         System.out.println(me.getY() / universalScaler);
 
-        if ((me.getX() / universalScaler) > 1030 && (me.getY() / universalScaler < 316)){
-            //TODO ADD SOMETHING HERE
+        if ((me.getX() / universalScaler) > tower0.getX() && (me.getX() / universalScaler) < (tower0.getWidth() + tower0.getX())
+                && (me.getY() / universalScaler > tower0.getY()) && (me.getY() / universalScaler) < (tower0.getY() + tower0.getHeight()) ){
+            towerSelected = 1;
 
 
         }
