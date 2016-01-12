@@ -24,6 +24,9 @@ public class ElvenWindowsGame extends JPanel implements MouseListener {
     private boolean is4K; // Possibly used later to determine to load high or low quality images
     private double lastUpdateTime;
 
+
+    private ArrayList<ElvenTowerPlaceable> TowerLocations;
+
     public static double speedMultiplier;
     double TIME_BETWEEN_UPDATES;
 
@@ -99,6 +102,10 @@ public class ElvenWindowsGame extends JPanel implements MouseListener {
         backgroundSprite.loadImage();
         tower0 = new ElvenTowerSprite(1445, 0, 0, "main/resources/towers/torrenter5.png");
 
+        TowerLocations = new ArrayList<ElvenTowerPlaceable>();
+        TowerLocations.add(new ElvenTowerPlaceable(252, 340));
+        TowerLocations.add(new ElvenTowerPlaceable(539, 302));
+
 
 
         runGameLoop();
@@ -141,6 +148,10 @@ public class ElvenWindowsGame extends JPanel implements MouseListener {
 
         g2d.drawImage(tower0.getImage(), tower0.getX(), tower0.getY(), this);
 
+        for (ElvenTowerPlaceable PotentialTowerLocation : TowerLocations) {
+            g2d.drawImage(PotentialTowerLocation.getImage(), PotentialTowerLocation.getX(),
+                    PotentialTowerLocation.getY(), this);
+        }
 
 
 
@@ -148,6 +159,38 @@ public class ElvenWindowsGame extends JPanel implements MouseListener {
 
 
 
+        if (towerSelected > 0){
+
+
+            Point towerHere = MouseInfo.getPointerInfo().getLocation();
+
+            towerHere.x -= 90;
+            towerHere.y -= 140;
+            towerHere.x /= universalScaler; towerHere.y /= universalScaler;
+
+
+
+            switch (towerSelected) {
+                case 1:
+                    ElvenSprite towerUsed = new ElvenSprite((int)towerHere.getX(), (int)towerHere.getY(),
+                            0, 0, "main/resources/towers/torrenter5.png");
+                    towerUsed.loadImage();
+
+                    g2d.drawImage(towerUsed.getImage(), towerUsed.getX(), towerUsed.getY(), this);
+                    break;
+
+
+
+            }
+
+        }
+
+
+
+
+
+
+        runGameLoop();
 
     }
 
@@ -296,6 +339,7 @@ public class ElvenWindowsGame extends JPanel implements MouseListener {
 
 
 
+
     }
 
 
@@ -303,15 +347,7 @@ public class ElvenWindowsGame extends JPanel implements MouseListener {
 
     //no need for all this
     @Override
-    public void mousePressed(MouseEvent e) {
-
-        
-
-
-    }
-
-    @Override
-    public void mouseReleased(MouseEvent me) {
+    public void mousePressed(MouseEvent me) {
 
         System.out.println(me.getX() / universalScaler);
         System.out.println(me.getY() / universalScaler);
@@ -319,6 +355,23 @@ public class ElvenWindowsGame extends JPanel implements MouseListener {
         if ((me.getX() / universalScaler) > tower0.getX() && (me.getX() / universalScaler) < (tower0.getWidth() + tower0.getX())
                 && (me.getY() / universalScaler > tower0.getY()) && (me.getY() / universalScaler) < (tower0.getY() + tower0.getHeight()) ){
             towerSelected = 1;
+
+            System.out.println("clicked tower " + towerSelected);
+
+
+        }
+
+
+    }
+
+    @Override
+    public void mouseReleased(MouseEvent me) {
+
+        if (me.getX() / universalScaler < 1440){
+            towerSelected = 0;
+
+            //TODO place tower.
+
 
 
         }
