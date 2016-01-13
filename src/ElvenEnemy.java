@@ -23,6 +23,8 @@ public class ElvenEnemy extends ElvenSprite {
     
     
     private final double speedMultiplier = ElvenMenuPanel.speedMultiplier;
+
+    private int movementPhase = 0;
     
 
 
@@ -31,16 +33,12 @@ public class ElvenEnemy extends ElvenSprite {
     
     //to be used when enemies move better
     private float realy;
-    
-    
-
-    public ElvenEnemy(long elvenActionToTake, double scaler) {
-    	
 
 
+    public ElvenEnemy(long elvenActionToTake) {
 
 
-        super(2000, 0, -Math.PI/2, 50, "main/resources/elvenelf1.png");
+        super(20, 1080, -Math.PI / 2, 50, "main/resources/elvenelf1.png");
 
         initEnemy(elvenActionToTake);
     }
@@ -113,55 +111,11 @@ public class ElvenEnemy extends ElvenSprite {
         
         
         }
-        
-        
-        
 
-        //Get the y or x value
-        realElvenAction = realElvenAction % 1080;
-        if (realElvenAction < 0){
-        	realElvenAction = 0 - realElvenAction;
-        }
-        
-        
-        realElvenAction = realElvenAction - 100;
-        
-        if (realElvenAction < 0){
-        	realElvenAction = 0;
-        }
-        
-        
-        //Y should be determined by this point
-        //DONE
-        
-        if (elvenEnemyType < 4) {
-        	y = realElvenAction;
-        } else {
-        	if (realElvenAction > 540){
-        		y = -100;
-        		x = 1860 - (realElvenAction - 540);
-        		
-        	} else {
-        		y = 1100;
-        		x = 1860 - (realElvenAction);
-        		elvenEnemyYSpeed = 0 - elvenEnemyYSpeed;
-        		
-        	}
-        }
-    	
-    	
-    	realy = y;
-    	realx = x;
-    	
-    	
-    	EnemyHP = 5 + ElvenMain.ElvenGameDifficulty;
-    	if (elvenEnemyType == 3){
-    		EnemyHP = 10000;
-    	}
-    	
-    	//when compiling for real, comment this
-    	//TODO: UNCOMMENT WHEN RUNNING IN SIM
-    	//this.image_file = "Images\\" + this.image_file;
+
+        realx = x;
+        realy = y;
+
     	
     	loadImage(); 
     }
@@ -169,9 +123,9 @@ public class ElvenEnemy extends ElvenSprite {
     public int hit(){
     	EnemyHP--;
         if (EnemyHP < 1) {
-        	
+
         	vis = false;
-        	
+
         	switch (elvenEnemyType) {
             case 0: return 50 * (1 + (ElvenMain.ElvenGameDifficulty / 4));
         	case 1: return 100 * (1 + (ElvenMain.ElvenGameDifficulty / 2));
@@ -192,18 +146,34 @@ public class ElvenEnemy extends ElvenSprite {
 
 
     public void move() {
-    	
+
     	if (vis){
-    		
+            switch (movementPhase) {
+                case 0:
+                    realy -= elvenEnemySpeed;
+                    if (realy < 32.0) {
+                        realy = 32;
+                        movementPhase++;
+                    }
+                    break;
+                case 1:
+                    realx += elvenEnemySpeed;
+                    if (realx > 714) {
+                        realx = 714;
+                        movementPhase++;
+                    }
+                    break;
+
+
+            }
 
         	
-            
+            /*
             realx -= elvenEnemySpeed;
-            realy += elvenEnemyYSpeed;
             if (realx < BOARD_WIDTH) {
                 vis = false;
             }
-            
+            */
             
             //approximation of real location at any frame
             x = (int) realx;

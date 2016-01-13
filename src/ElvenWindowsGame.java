@@ -24,8 +24,12 @@ public class ElvenWindowsGame extends JPanel implements MouseListener {
     private boolean is4K; // Possibly used later to determine to load high or low quality images
     private double lastUpdateTime;
 
+    private int waveSize = 30; // Testing number of enemies
+    private int spawnEnemy = 50; // When to respawn
+
 
     private ArrayList<ElvenTowerPlaceable> TowerLocations;
+    private ArrayList<ElvenEnemy> ElvenEnemies;
 
     public static double speedMultiplier;
     double TIME_BETWEEN_UPDATES;
@@ -102,10 +106,20 @@ public class ElvenWindowsGame extends JPanel implements MouseListener {
         backgroundSprite.loadImage();
         tower0 = new ElvenTowerSprite(1445, 0, 0, "main/resources/towers/torrenter5.png");
 
+
+        ElvenEnemies = new ArrayList<ElvenEnemy>();
         TowerLocations = new ArrayList<ElvenTowerPlaceable>();
+        //Reds
         TowerLocations.add(new ElvenTowerPlaceable(252, 340));
         TowerLocations.add(new ElvenTowerPlaceable(539, 302));
+        TowerLocations.add(new ElvenTowerPlaceable(393, 326));
+        TowerLocations.add(new ElvenTowerPlaceable(549, 560));
+        TowerLocations.add(new ElvenTowerPlaceable(540, 428));
+        TowerLocations.add(new ElvenTowerPlaceable(393, 326));
+        TowerLocations.add(new ElvenTowerPlaceable(253, 461));
 
+        //Greens
+        TowerLocations.add(new ElvenTowerPlaceable(888, 286));
 
 
         runGameLoop();
@@ -149,10 +163,15 @@ public class ElvenWindowsGame extends JPanel implements MouseListener {
         g2d.drawImage(tower0.getImage(), tower0.getX(), tower0.getY(), this);
 
         for (ElvenTowerPlaceable PotentialTowerLocation : TowerLocations) {
-            g2d.drawImage(PotentialTowerLocation.getImage(), PotentialTowerLocation.getX(),
-                    PotentialTowerLocation.getY(), this);
+
+            g2d.drawImage(PotentialTowerLocation.getImage(),
+                    PotentialTowerLocation.getX(), PotentialTowerLocation.getY(), this);
         }
 
+
+        for (ElvenEnemy e : ElvenEnemies) {
+            g2d.drawImage(e.getImage(), e.getX(), e.getY(), this);
+        }
 
 
 
@@ -164,17 +183,19 @@ public class ElvenWindowsGame extends JPanel implements MouseListener {
 
             Point towerHere = MouseInfo.getPointerInfo().getLocation();
 
-            towerHere.x -= 90;
-            towerHere.y -= 140;
+            towerHere.x -= 29;
+            towerHere.y -= 73;
             towerHere.x /= universalScaler; towerHere.y /= universalScaler;
 
 
 
             switch (towerSelected) {
                 case 1:
+
+
                     ElvenSprite towerUsed = new ElvenSprite((int)towerHere.getX(), (int)towerHere.getY(),
                             0, 0, "main/resources/towers/torrenter5.png");
-                    towerUsed.loadImage();
+                    towerUsed.loadScaledImage(0.3, 0.3);
 
                     g2d.drawImage(towerUsed.getImage(), towerUsed.getX(), towerUsed.getY(), this);
                     break;
@@ -302,10 +323,26 @@ public class ElvenWindowsGame extends JPanel implements MouseListener {
     {
 
         repaint();
+        updateEnemies();
 
     }
 
+    public void updateEnemies() {
 
+        ElvenEnemies.forEach(ElvenEnemy::move);
+        if (spawnEnemy == 0 && waveSize > 0) {
+            ElvenEnemies.add(new ElvenEnemy(1000));
+            //TODO Randomly generate enemies
+
+
+            waveSize--;
+            spawnEnemy = 50;
+        } else {
+            spawnEnemy--;
+        }
+
+
+    }
 
     public void update() {
 
@@ -349,8 +386,7 @@ public class ElvenWindowsGame extends JPanel implements MouseListener {
     @Override
     public void mousePressed(MouseEvent me) {
 
-        System.out.println(me.getX() / universalScaler);
-        System.out.println(me.getY() / universalScaler);
+        System.out.println(me.getX() / universalScaler + ", " + me.getY() / universalScaler);
 
         if ((me.getX() / universalScaler) > tower0.getX() && (me.getX() / universalScaler) < (tower0.getWidth() + tower0.getX())
                 && (me.getY() / universalScaler > tower0.getY()) && (me.getY() / universalScaler) < (tower0.getY() + tower0.getHeight()) ){
@@ -368,10 +404,34 @@ public class ElvenWindowsGame extends JPanel implements MouseListener {
     public void mouseReleased(MouseEvent me) {
 
         if (me.getX() / universalScaler < 1440){
-            towerSelected = 0;
+
 
             //TODO place tower.
 
+
+            Point myLoc = me.getPoint();
+            myLoc.x /= universalScaler;
+            myLoc.y /= universalScaler;
+
+
+            switch (towerSelected) {
+                case 1:
+                    for (ElvenTowerPlaceable PotentialTowerLocation : TowerLocations) {
+                        if (PotentialTowerLocation.getBounds().contains(myLoc)) {
+
+                            PotentialTowerLocation.image_file = "main/resources/towers/torrenter.png";
+                            //Loads a 50% scaled image
+                            PotentialTowerLocation.loadScaledImage(0.5, 0.5);
+                            break;
+
+                        }
+                    }
+                    break;
+
+
+            }
+
+            towerSelected = 0;
 
 
         }

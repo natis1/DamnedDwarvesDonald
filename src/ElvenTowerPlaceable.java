@@ -11,7 +11,7 @@ import java.awt.*;
 public class ElvenTowerPlaceable extends ElvenSprite {
 
 
-
+    public boolean towerPlaced = false;
 
 
 
@@ -19,6 +19,8 @@ public class ElvenTowerPlaceable extends ElvenSprite {
 
 
         super(x, y, 0, 0, "main/resources/towers/TowerPlaceable.png");
+
+        //Loads normal image before using scaled images for towers
         loadImage();
 
 

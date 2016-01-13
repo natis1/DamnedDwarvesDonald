@@ -1,5 +1,7 @@
 import javax.imageio.ImageIO;
 import java.awt.*;
+import java.awt.geom.AffineTransform;
+import java.awt.image.AffineTransformOp;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 
@@ -44,11 +46,33 @@ public class ElvenSprite {
 		vis = true;
 	}
 
+    public void loadScaledImage(double xScale, double yScale) {
+        BufferedImage img = null;
+        try {
+            img = ImageIO.read(getClass().getResource(image_file));
+
+        } catch (IOException e) {
+            System.out.println("Error loading image.");
+            e.printStackTrace();
+        }
+
+
+        //BufferedImage after = new ;
+        AffineTransform at = new AffineTransform();
+        at.scale(xScale, yScale);
+        AffineTransformOp scaleOp = new AffineTransformOp(at, AffineTransformOp.TYPE_BICUBIC); //I think bicubic looks the best
+        this.image = createTransformedImage(scaleOp.filter(img,
+                new BufferedImage(img.getWidth(), img.getHeight(), BufferedImage.TYPE_INT_ARGB)), angle);
+
+
+    }
+
 	//Load a buffered image
 	public void loadImage(){
 		BufferedImage img = null;
 		try {
 			img = ImageIO.read(getClass().getResource(image_file));
+
 		} catch (IOException e) {
 			System.out.println("Error loading image.");
 			e.printStackTrace();
@@ -81,11 +105,12 @@ public class ElvenSprite {
 		return image;
 	}
 
-	public Rectangle getBoundingRectangle() {
-		return new Rectangle(x, y, width, height);
-	}
-	
-	public int getWidth() {
+    /*
+        public Rectangle getBoundingRectangle() {
+            return new Rectangle(x, y, width, height);
+        }
+        */
+    public int getWidth() {
 		return image.getWidth();
 	}
 	
