@@ -38,7 +38,7 @@ public class ElvenEnemy extends ElvenSprite {
     public ElvenEnemy(long elvenActionToTake) {
 
 
-        super(20, 1080, -Math.PI / 2, 50, "main/resources/elvenelf1.png");
+        super(20, 1080, 0, 30, "main/resources/elvenelf1.png");
 
         initEnemy(elvenActionToTake);
     }
@@ -69,8 +69,8 @@ public class ElvenEnemy extends ElvenSprite {
         }
         switch (elvenEnemyType) {
         case 0: this.image_file = "main/resources/e1.png";
-    	elvenEnemySpeed = ElvenMenuPanel.speedMultiplier * (8  + (ElvenMain.ElvenGameDifficulty / 4));
-    	break;
+            elvenEnemySpeed = ElvenMenuPanel.speedMultiplier * (2 + (ElvenMain.ElvenGameDifficulty / 4));
+            break;
     	
         case 1: this.image_file = "main/resources/e2.png";
     	elvenEnemySpeed = ElvenMenuPanel.speedMultiplier * (5  + (ElvenMain.ElvenGameDifficulty / 4));
@@ -154,6 +154,7 @@ public class ElvenEnemy extends ElvenSprite {
                     if (realy < 32.0) {
                         realy = 32;
                         movementPhase++;
+                        setAngle(Math.PI / 2);
                     }
                     break;
                 case 1:
@@ -161,8 +162,28 @@ public class ElvenEnemy extends ElvenSprite {
                     if (realx > 714) {
                         realx = 714;
                         movementPhase++;
+                        setAngle(Math.PI);
                     }
                     break;
+                case 2:
+                    realy += elvenEnemySpeed;
+                    if (realy > 532) {
+                        realy = 532;
+                        movementPhase++;
+                        setAngle(Math.PI / 2);
+                    }
+                    break;
+                case 3:
+                    realx += elvenEnemySpeed;
+                    if (realx > 1440) {
+                        vis = false;
+                        //TODO Add damage
+                        movementPhase++;
+                    }
+
+
+
+
 
 
             }

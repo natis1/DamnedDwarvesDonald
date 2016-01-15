@@ -31,6 +31,8 @@ public class ElvenWindowsGame extends JPanel implements MouseListener {
     private ArrayList<ElvenTowerPlaceable> TowerLocations;
     private ArrayList<ElvenEnemy> ElvenEnemies;
 
+    private ArrayList<ElvenTowerSprite> Towers;
+
     public static double speedMultiplier;
     double TIME_BETWEEN_UPDATES;
 
@@ -41,7 +43,7 @@ public class ElvenWindowsGame extends JPanel implements MouseListener {
     private int towerSelected = -1;
 
 
-    private ElvenTowerSprite tower0;
+    private ElvenSprite tower0;
 
 
     //3- Draw all, 2- No useless sprites, 1- No moving background, 0- TBD when we need more GPU capabilities.
@@ -70,6 +72,8 @@ public class ElvenWindowsGame extends JPanel implements MouseListener {
 
 
         gameHZ = monitorHZ;
+
+        //gameHZ = 10;
 
 
         TIME_BETWEEN_UPDATES = 1000000000 / gameHZ;
@@ -104,18 +108,20 @@ public class ElvenWindowsGame extends JPanel implements MouseListener {
 
         backgroundSprite = new ElvenSprite(0, 0, 0, 0, bgImageString);
         backgroundSprite.loadImage();
-        tower0 = new ElvenTowerSprite(1445, 0, 0, "main/resources/towers/torrenter5.png");
+        tower0 = new ElvenSprite(1445, 0, 0, 0, "main/resources/towers/torrenter5.png");
+        tower0.loadImage();
 
 
         ElvenEnemies = new ArrayList<ElvenEnemy>();
+        Towers = new ArrayList<ElvenTowerSprite>();
         TowerLocations = new ArrayList<ElvenTowerPlaceable>();
         //Reds
         TowerLocations.add(new ElvenTowerPlaceable(252, 340));
         TowerLocations.add(new ElvenTowerPlaceable(539, 302));
-        TowerLocations.add(new ElvenTowerPlaceable(393, 326));
+        TowerLocations.add(new ElvenTowerPlaceable(393, 327));
         TowerLocations.add(new ElvenTowerPlaceable(549, 560));
         TowerLocations.add(new ElvenTowerPlaceable(540, 428));
-        TowerLocations.add(new ElvenTowerPlaceable(393, 326));
+        TowerLocations.add(new ElvenTowerPlaceable(394, 326));
         TowerLocations.add(new ElvenTowerPlaceable(253, 461));
 
         //Greens
@@ -168,6 +174,12 @@ public class ElvenWindowsGame extends JPanel implements MouseListener {
                     PotentialTowerLocation.getX(), PotentialTowerLocation.getY(), this);
         }
 
+        for (ElvenTowerSprite TowerLocation : Towers) {
+
+            g2d.drawImage(TowerLocation.getImage(), TowerLocation.getX(), TowerLocation.getY(), this);
+
+        }
+
 
         for (ElvenEnemy e : ElvenEnemies) {
             g2d.drawImage(e.getImage(), e.getX(), e.getY(), this);
@@ -211,7 +223,7 @@ public class ElvenWindowsGame extends JPanel implements MouseListener {
 
 
 
-        runGameLoop();
+
 
     }
 
@@ -323,20 +335,22 @@ public class ElvenWindowsGame extends JPanel implements MouseListener {
     {
 
         repaint();
-        updateEnemies();
+
 
     }
 
     public void updateEnemies() {
 
         ElvenEnemies.forEach(ElvenEnemy::move);
+
+
         if (spawnEnemy == 0 && waveSize > 0) {
             ElvenEnemies.add(new ElvenEnemy(1000));
             //TODO Randomly generate enemies
 
 
             waveSize--;
-            spawnEnemy = 50;
+            spawnEnemy = 100;
         } else {
             spawnEnemy--;
         }
@@ -345,6 +359,9 @@ public class ElvenWindowsGame extends JPanel implements MouseListener {
     }
 
     public void update() {
+
+        updateEnemies();
+
 
 
 
@@ -416,12 +433,18 @@ public class ElvenWindowsGame extends JPanel implements MouseListener {
 
             switch (towerSelected) {
                 case 1:
-                    for (ElvenTowerPlaceable PotentialTowerLocation : TowerLocations) {
+                    for (int i = 0; i < TowerLocations.size(); i++) {
+
+                        ElvenTowerPlaceable PotentialTowerLocation = TowerLocations.get(i);
                         if (PotentialTowerLocation.getBounds().contains(myLoc)) {
 
-                            PotentialTowerLocation.image_file = "main/resources/towers/torrenter.png";
-                            //Loads a 50% scaled image
-                            PotentialTowerLocation.loadScaledImage(0.5, 0.5);
+                            //TODO call the tower sprite in the elventower sprite
+
+
+                            Towers.add(new ElvenTowerSprite(PotentialTowerLocation.getX(),
+                                    PotentialTowerLocation.getY(), towerSelected, "main/resources/towers/torrenter.png"));
+
+                            TowerLocations.remove(i);
                             break;
 
                         }

@@ -29,9 +29,6 @@ public class ElvenTowerPlaceable extends ElvenSprite {
     }
 
 
-
-
-
     public Rectangle getBounds() {
 
         getImageDimensions();
