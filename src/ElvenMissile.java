@@ -13,16 +13,23 @@ public class ElvenMissile extends ElvenSprite {
     
     private float realy;
     private float realx;
+
+
+    private int xTarget;
+    private int yTarget;
     
     
     //private int elvenUpgrade = ElvenMain.ElvenUpgradeTracking;
-    
 
-    public ElvenMissile(int x, int y, double angle, String image_file) {
-    	
+
+    public ElvenMissile(int x, int y, double angle, String image_file, int xTarget, int yTarget) {
+
     	
     	
         super(x, y, angle, 10, image_file);
+        this.xTarget = xTarget;
+        this.yTarget = yTarget;
+
         x += (int)10*Math.cos(angle);
         y += (int)10*Math.sin(angle);
         realx = x;
@@ -39,8 +46,37 @@ public class ElvenMissile extends ElvenSprite {
         getImageDimensions();
     }*/
 
-    
-    public void moveToLocation(int xLoc, int yLoc) {
+
+    public void moveToTarget() {
+
+        //this.angle = angle
+
+
+        //Uses math and magic IDK
+        int xTheTriangle = xTarget - (int) realx;
+        int yTheTriangle = yTarget - (int) realy;
+
+
+        if (xTheTriangle > 5 && (yTheTriangle > 8 || yTheTriangle < -8)) {
+
+            double angle = Math.atan((double) yTheTriangle / ((double) xTheTriangle));
+            this.angle = angle;
+
+            realx += (Math.cos(this.angle) * (((double) ElvenMain.ElvenUpgradeTracking + 5) / 5)) * MISSILE_SPEED;
+            realy += (Math.sin(this.angle) * (((double) ElvenMain.ElvenUpgradeTracking + 5) / 5)) * MISSILE_SPEED;
+
+            x = (int) realx;
+            y = (int) realy;
+
+        } else {
+            move();
+        }
+
+
+    }
+
+
+    public void HomeInOnTarget(int xLoc, int yLoc) {
         
     	//this.angle = angle
     	

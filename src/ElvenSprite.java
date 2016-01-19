@@ -232,8 +232,16 @@ public class ElvenSprite {
 		//Move image to the old center to prevent rotation wobble.
 		moveToCenter(center[0], center[1]);
 	}
-	
-	//Check circular collision
+
+    public Rectangle GetCircularRectangle() {
+
+        return new Rectangle((int) (getXCenter() - collision_radius),
+                (int) (getYCenter() - collision_radius),
+                (int) collision_radius * 2, (int) collision_radius * 2);
+
+    }
+
+    //Check circular collision
 	/*public boolean CollidedRadius(Sprite other){
 		int[] my_center = this.getCenter();
 		int[] other_center = other.getCenter();

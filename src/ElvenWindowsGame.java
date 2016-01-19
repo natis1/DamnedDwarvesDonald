@@ -178,6 +178,10 @@ public class ElvenWindowsGame extends JPanel implements MouseListener {
 
             g2d.drawImage(TowerLocation.getImage(), TowerLocation.getX(), TowerLocation.getY(), this);
 
+            for (ElvenMissile Missile : TowerLocation.bullets) {
+                g2d.drawImage(Missile.getImage(), Missile.getX(), Missile.getY(), this);
+            }
+
         }
 
 
@@ -268,7 +272,7 @@ public class ElvenWindowsGame extends JPanel implements MouseListener {
             //Do as many game updates as we need to, potentially playing catchup.
             while(now - lastUpdateTime > TIME_BETWEEN_UPDATES && updateCount < MAX_UPDATES_BEFORE_RENDER)
             {
-                update();
+                Update();
                 lastUpdateTime += TIME_BETWEEN_UPDATES;
                 updateCount++;
                 if (updateCount > 15 && graphicsQuality > 2){
@@ -331,7 +335,7 @@ public class ElvenWindowsGame extends JPanel implements MouseListener {
     }
 
 
-    private void drawGame(float interpolation)
+    private void DrawGame(float interpolation)
     {
 
         repaint();
@@ -339,7 +343,30 @@ public class ElvenWindowsGame extends JPanel implements MouseListener {
 
     }
 
-    public void updateEnemies() {
+
+    private void UpdateTowers() {
+        for (ElvenTowerSprite Tower : Towers) {
+            Tower.bullets.forEach(ElvenMissile::moveToTarget);
+
+            if (Tower.missileTime < 1) {
+                for (ElvenEnemy Enemy : ElvenEnemies) {
+                    if (Tower.GetCircularRectangle().intersects((Enemy.GetCircularRectangle()))) {
+                        Tower.ShootBullet(Enemy.getX(), Enemy.getY());
+                        break;
+                    }
+                }
+                Tower.missileTime = 50;
+            } else {
+                Tower.missileTime--;
+            }
+
+
+        }
+
+
+    }
+
+    public void UpdateEnemies() {
 
         ElvenEnemies.forEach(ElvenEnemy::move);
 
@@ -358,10 +385,10 @@ public class ElvenWindowsGame extends JPanel implements MouseListener {
 
     }
 
-    public void update() {
+    public void Update() {
 
-        updateEnemies();
-
+        UpdateEnemies();
+        UpdateTowers();
 
 
 
@@ -370,7 +397,7 @@ public class ElvenWindowsGame extends JPanel implements MouseListener {
         }
 
         float interpolation = Math.min(1.0f, (float) ((now - lastUpdateTime) / TIME_BETWEEN_UPDATES) );
-        drawGame(interpolation);
+        DrawGame(interpolation);
 
 
         //NOT DONE HERE ANYMORE
