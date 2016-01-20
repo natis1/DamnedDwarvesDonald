@@ -116,7 +116,9 @@ public class ElvenEnemy extends ElvenSprite {
         realx = x;
         realy = y;
 
-    	
+
+        EnemyHP = 2;
+
     	loadImage(); 
     }
     

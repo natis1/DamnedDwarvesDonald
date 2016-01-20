@@ -30,6 +30,8 @@ public class ElvenSprite {
 	//Detect collisions in a circle around the sprite.
 	protected double collision_radius=0;
 
+    private double imageScale = 1.0;
+
 	//Constructor
 	public ElvenSprite(int x, int y, double angle, double radius, String image_file) {
 		this.x = x;
@@ -46,8 +48,9 @@ public class ElvenSprite {
 		vis = true;
 	}
 
-    public void loadScaledImage(double xScale, double yScale) {
+    public void loadScaledImage(double scale) {
         BufferedImage img = null;
+        imageScale = scale;
         try {
             img = ImageIO.read(getClass().getResource(image_file));
 
@@ -57,10 +60,13 @@ public class ElvenSprite {
         }
 
 
+
         //BufferedImage after = new ;
         AffineTransform at = new AffineTransform();
-        at.scale(xScale, yScale);
+        at.scale(scale, scale);
         AffineTransformOp scaleOp = new AffineTransformOp(at, AffineTransformOp.TYPE_BICUBIC); //I think bicubic looks the best
+
+
         this.image = createTransformedImage(scaleOp.filter(img,
                 new BufferedImage(img.getWidth(), img.getHeight(), BufferedImage.TYPE_INT_ARGB)), angle);
 
@@ -226,8 +232,13 @@ public class ElvenSprite {
 		//Rotate the angle by pi/16
 		this.angle = angle;
 		//Reload the image.
-		loadImage();
-		//Update the image dimensions.
+
+        if (imageScale == 1.0) {
+            loadImage();
+        } else {
+            loadScaledImage(imageScale);
+        }
+        //Update the image dimensions.
 		getImageDimensions();
 		//Move image to the old center to prevent rotation wobble.
 		moveToCenter(center[0], center[1]);

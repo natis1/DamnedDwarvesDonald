@@ -211,7 +211,7 @@ public class ElvenWindowsGame extends JPanel implements MouseListener {
 
                     ElvenSprite towerUsed = new ElvenSprite((int)towerHere.getX(), (int)towerHere.getY(),
                             0, 0, "main/resources/towers/torrenter5.png");
-                    towerUsed.loadScaledImage(0.3, 0.3);
+                    towerUsed.loadScaledImage(0.3);
 
                     g2d.drawImage(towerUsed.getImage(), towerUsed.getX(), towerUsed.getY(), this);
                     break;
@@ -349,14 +349,35 @@ public class ElvenWindowsGame extends JPanel implements MouseListener {
             Tower.bullets.forEach(ElvenMissile::moveToTarget);
 
             if (Tower.missileTime < 1) {
-                for (ElvenEnemy Enemy : ElvenEnemies) {
+                for (int i = 0; i < ElvenEnemies.size(); i++) {
+
+                    ElvenEnemy Enemy = ElvenEnemies.get(i);
+
                     if (Tower.GetCircularRectangle().intersects((Enemy.GetCircularRectangle()))) {
-                        Tower.ShootBullet(Enemy.getX(), Enemy.getY());
+                        Tower.ShootBullet(Enemy.getX(), Enemy.getY(), i);
+                        Tower.setAngle(Tower.bullets.get((Tower.bullets.size() - 1)).angle);
+
                         break;
                     }
                 }
                 Tower.missileTime = 50;
             } else {
+
+                for (int i = 0; i < Tower.bullets.size(); i++) {
+                    ElvenMissile Bullet = Tower.bullets.get(i);
+
+                    if (Bullet.GetCircularRectangle().contains(Bullet.GetTarget())) {
+
+                        if (ElvenEnemies.size() > 0) {
+                            ElvenEnemies.get(Bullet.enemyTarget).hit();
+                        }
+                        Tower.bullets.remove(i);
+
+                    }
+
+
+                }
+
                 Tower.missileTime--;
             }
 
@@ -381,6 +402,17 @@ public class ElvenWindowsGame extends JPanel implements MouseListener {
         } else {
             spawnEnemy--;
         }
+
+        for (int i = 0; i < ElvenEnemies.size(); i++) {
+
+            ElvenEnemy Enemy = ElvenEnemies.get(i);
+
+            if (!Enemy.isVisible()) {
+                ElvenEnemies.remove(i);
+            }
+        }
+
+
 
 
     }
